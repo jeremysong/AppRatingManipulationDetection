@@ -1,6 +1,6 @@
 __author__ = 'jeremy'
 
-from sklearn import svm
+from sklearn import neighbors
 from sklearn import cross_validation
 import numpy as np
 import csv
@@ -25,14 +25,11 @@ for app_data_row in appDataCsv:
     features_data.append([float(app_data_row[index]) for index in feature_index])
     abused_data.append(int(app_data_row[-1]))
 
-clf = svm.LinearSVC()
-#clf.fit(features_data[:5000], abused_data[:5000])
-#predictions = clf.predict(features_data[5001:])
-#scores = clf.score(features_data[5001:], abused_data[5001:])
-
 random.seed()
 
+clf = neighbors.KNeighborsClassifier(6, 'uniform')
 cv = cross_validation.ShuffleSplit(len(features_data), n_iter=5, test_size=0.2, random_state=random.randint(1, 100))
+
 scores = cross_validation.cross_val_score(clf, np.array(features_data), np.array(abused_data), cv=cv, scoring='accuracy')
 
 print(scores)
