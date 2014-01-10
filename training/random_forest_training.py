@@ -1,11 +1,15 @@
+"""
+n_estimator = 9, num of featuer = 16
+"""
+
 __author__ = 'jeremy'
 
-from sklearn import svm
+from sklearn.ensemble import RandomForestClassifier
 from sklearn import cross_validation
 import numpy as np
 import csv
-import random
 import matplotlib.pylab as plt
+import random
 
 appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/appDataWithAbusedInfo.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
@@ -20,8 +24,10 @@ features = ['perc_pos_rater', 'num_pos_rater', 'var_num_rating_by_week', 'total_
             'price']
 
 
-scores_by_feature = list()
+best_scores = list()
 
+#for num_estimators in range(1, 20, 1):
+scores_by_feature = list()
 for num_features in range(1, 23, 1):
     features_data = list()
     abused_data = list()
@@ -32,16 +38,16 @@ for num_features in range(1, 23, 1):
         features_data.append([float(app_data_row[index]) for index in feature_index])
         abused_data.append(int(app_data_row[-1]))
 
-    print(features_data[-1])
+    #print(features_data[-1])
 
-    clf = svm.LinearSVC()
+    clf = RandomForestClassifier(n_estimators=9)
     #clf.fit(features_data[:5000], abused_data[:5000])
     #predictions = clf.predict(features_data[5001:])
     #scores = clf.score(features_data[5001:], abused_data[5001:])
 
     random.seed()
     cv = cross_validation.ShuffleSplit(len(features_data), n_iter=5, test_size=0.2, random_state=random.randint(1, 1000))
-    scores = cross_validation.cross_val_score(clf, np.array(features_data), np.array(abused_data), cv=cv, scoring='precision')
+    scores = cross_validation.cross_val_score(clf, np.array(features_data), np.array(abused_data), cv=cv, scoring='recall')
 
     print(scores)
     print('Average score:', np.average(scores))
@@ -49,6 +55,8 @@ for num_features in range(1, 23, 1):
 
     appDataFile.seek(0)
     next(appDataCsv)
+
+best_scores.append(max(scores_by_feature))
 
 plt.bar(np.arange(1, 23, 1), scores_by_feature, align="center")
 plt.show()

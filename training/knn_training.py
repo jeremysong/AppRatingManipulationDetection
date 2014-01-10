@@ -21,16 +21,17 @@ abused_data = list()
 
 feature_index = [appDataHeader.index(feature) for feature in features]
 
-for app_data_row in appDataCsv:
-    features_data.append([float(app_data_row[index]) for index in feature_index])
-    abused_data.append(int(app_data_row[-1]))
+for n in range(1, 20, 1):
+    for app_data_row in appDataCsv:
+        features_data.append([float(app_data_row[index]) for index in feature_index])
+        abused_data.append(int(app_data_row[-1]))
 
-random.seed()
+    random.seed()
 
-clf = neighbors.KNeighborsClassifier(6, 'uniform')
-cv = cross_validation.ShuffleSplit(len(features_data), n_iter=5, test_size=0.2, random_state=random.randint(1, 100))
+    clf = neighbors.KNeighborsClassifier(n, 'uniform')
+    cv = cross_validation.ShuffleSplit(len(features_data), n_iter=5, test_size=0.2, random_state=random.randint(1, 1000))
 
-scores = cross_validation.cross_val_score(clf, np.array(features_data), np.array(abused_data), cv=cv, scoring='accuracy')
+    scores = cross_validation.cross_val_score(clf, np.array(features_data), np.array(abused_data), cv=cv, scoring='precision')
 
-print(scores)
-print('Average score:', np.average(scores))
+    print(n)
+    print('Average score:', np.average(scores))
