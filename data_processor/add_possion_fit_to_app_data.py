@@ -14,7 +14,7 @@ appDataCsv = csv.reader(appDataFile, delimiter=',')
 poissonAppDataCsv = csv.writer(poissonAppDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)
-appDataHeader.extend(['poisson_num_peaks', 'poisson_first_peak', 'poisson_last_peek'])
+appDataHeader.extend(['poisson_num_peaks', 'poisson_first_peak', 'poisson_last_peak'])
 poissonAppDataCsv.writerow(appDataHeader)
 
 for app_data_row in appDataCsv:
