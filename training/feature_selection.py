@@ -2,7 +2,7 @@ from sklearn.ensemble import ExtraTreesClassifier
 import csv
 import numpy as np
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/appDataWithAbusedInfo.csv", 'r')
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/trainingData.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)
@@ -28,6 +28,9 @@ print("Feature ranking:")
 
 for f in xrange(29):
     print "%d. %s (%f)" % (f + 1, features[indices[f]], importances[indices[f]])
+
+feature_list = [features[indices[f]] for f in xrange(29)]
+print(feature_list)
 
 import pylab as pl
 pl.figure()
