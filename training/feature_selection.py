@@ -1,4 +1,4 @@
-from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import RandomForestClassifier
 import csv
 import numpy as np
 
@@ -15,7 +15,7 @@ for app_data_row in appDataCsv:
     features_data.append(app_data_row[1: -1])
     target_data.append(app_data_row[-1])
 
-forest = ExtraTreesClassifier(compute_importances=True, random_state=0)
+forest = RandomForestClassifier(compute_importances=True, random_state=0)
 forest.fit(features_data, target_data)
 
 importances = forest.feature_importances_
@@ -35,7 +35,7 @@ print(feature_list)
 import pylab as pl
 pl.figure()
 pl.title("Feature importances")
-pl.bar(xrange(29), importances[indices], color="r", yerr=std[indices], align="center")
+pl.bar(xrange(29), importances[indices], color="r", align="center")
 pl.xticks(xrange(29), indices)
 pl.xlim([-1, 29])
 pl.show()
