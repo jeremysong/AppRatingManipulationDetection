@@ -1,5 +1,5 @@
 """
-n_estimator = 8, num of feature = 25
+n_estimator = 18, num of feature = 23, 0.92
 """
 
 __author__ = 'jeremy'
@@ -10,6 +10,7 @@ import numpy as np
 import csv
 import matplotlib.pylab as plt
 import random
+from sklearn.metrics import precision_recall_fscore_support
 
 appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/trainingData.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
@@ -26,43 +27,61 @@ features = ['num_pos_rater', 'perc_pos_rater', 'var_num_rating_by_week', 'total_
 
 best_scores = list()
 
-#for num_estimators in range(1, 20, 1):
-for num_estimators in [8]:
+for num_estimators in range(1, 100, 2):
     scores_by_feature = list()
-    for num_features in range(1, len(features), 1):
+    #for num_features in range(1, len(features), 1):
+    for num_features in [29]:
         features_data = list()
         abused_data = list()
 
-        feature_index = [appDataHeader.index(feature) for feature in features[0: num_features]]
+        feature_index = [appDataHeader.index(feature) for feature in features[0: num_features + 1]]
 
         for app_data_row in appDataCsv:
             features_data.append([float(app_data_row[index]) for index in feature_index])
             abused_data.append(int(app_data_row[-1]))
 
-        clf = RandomForestClassifier(n_estimators=9)
+        clf = RandomForestClassifier(n_estimators=num_estimators, max_features='log2')
 
         random.seed()
         cv = cross_validation.ShuffleSplit(len(features_data), n_iter=5, test_size=0.2,
                                            random_state=random.randint(1, 1000))
-        scores = cross_validation.cross_val_score(clf, np.array(features_data), np.array(abused_data), cv=cv,
-                                                  scoring='f1')
 
-        print(scores)
-        print('Average score:', np.average(scores))
-        scores_by_feature.append(np.average(scores))
+        score_collection = list()
+
+        for train_index, test_index in cv:
+            training_data = [features_data[idx] for idx in train_index]
+            training_target = [abused_data[idx] for idx in train_index]
+            test_data = [features_data[idx] for idx in test_index]
+            test_target = [abused_data[idx] for idx in test_index]
+
+            clf.fit(training_data, training_target)
+            prediction = clf.predict(test_data)
+            scores = precision_recall_fscore_support(test_target, prediction)
+            score_collection.append(scores)
+            #scores = cross_validation.cross_val_score(clf, np.array(features_data), np.array(abused_data), cv=cv, scoring='f1')
+
+        f1_score = np.average([scores[2] for scores in score_collection])
+        print(u'Average precision: {0:f}. Average recall: {1:f}. Average f1: {2:f}'.format(
+            np.average([scores[0] for scores in score_collection]),
+            np.average([scores[1] for scores in score_collection]),
+            np.average([scores[2] for scores in score_collection])))
 
         appDataFile.seek(0)
         next(appDataCsv)
 
-    best_scores.append(max(scores_by_feature))
-    max_score = max(scores_by_feature)
-    index = scores_by_feature.index(max_score)
-    print(index, max_score)
-    plt.bar(np.arange(1, len(features), 1), scores_by_feature, align="center")
-    plt.show()
+        scores_by_feature.append(f1_score)
 
-    # max_score = max(best_scores)
-    # num_estimator = best_scores.index(max_score)
-    # print(num_estimator, max_score)
-    # plt.bar(np.arange(1, 20, 1), best_scores, align="center")
+    best_scores.append([scores_by_feature.index(max(scores_by_feature)), max(scores_by_feature)])
+    # max_score = max(scores_by_feature)
+    # index = scores_by_feature.index(max_score)
+    # print(index, max_score)
+    # plt.bar(np.arange(1, len(features), 1), scores_by_feature, align="center")
     # plt.show()
+
+max_score = max([best_score[1] for best_score in best_scores])
+num_estimator = [best_score[1] for best_score in best_scores].index(max_score)
+num_feature = [best_score[0] for best_score in best_scores][num_estimator]
+print(num_estimator + 1, max_score, num_feature)
+plt.bar(range(1, 100, 2), [best_score[1] for best_score in best_scores], align="center")
+plt.xlim([0, 100])
+plt.show()
