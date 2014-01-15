@@ -34,7 +34,7 @@ for num_estimators in range(1, 100, 2):
         features_data = list()
         abused_data = list()
 
-        feature_index = [appDataHeader.index(feature) for feature in features[0: num_features + 1]]
+        feature_index = [appDataHeader.index(feature) for feature in features[0: num_features]]
 
         for app_data_row in appDataCsv:
             features_data.append([float(app_data_row[index]) for index in feature_index])
