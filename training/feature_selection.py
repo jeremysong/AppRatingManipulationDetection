@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 import csv
 import numpy as np
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/trainingData.csv", 'r')
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/naiveTrainingData.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)
@@ -15,7 +15,7 @@ for app_data_row in appDataCsv:
     features_data.append(app_data_row[1: -1])
     target_data.append(app_data_row[-1])
 
-forest = RandomForestClassifier(compute_importances=True, random_state=0)
+forest = RandomForestClassifier(random_state=0)
 forest.fit(features_data, target_data)
 
 importances = forest.feature_importances_
