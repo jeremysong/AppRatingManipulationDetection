@@ -1,5 +1,5 @@
 """
-n_estimator = 18, num of feature = 23, 0.92
+Random forest training model.
 """
 
 __author__ = 'jeremy'
