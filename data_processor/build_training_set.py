@@ -8,8 +8,8 @@ import csv
 
 iTunesDataFolder = '/Users/jeremy/Google Drive/PSU/thesis/itunes_data/'
 
-appFeatureFile = open(iTunesDataFolder + 'poissonAppData.csv', 'r')
-abusedAppFile = open(iTunesDataFolder + '143465_abused_apps.txt', 'r')
+appFeatureFile = open(iTunesDataFolder + 'posNegWeekAppData.csv', 'r')
+abusedAppFile = open(iTunesDataFolder + 'cn_abused_apps.txt', 'r')
 sampleAppDataFile = open(iTunesDataFolder + 'sample_total.csv', 'r')
 trainingDataFile = open(iTunesDataFolder + 'trainingData.csv', 'w')
 
@@ -25,8 +25,6 @@ for abused_app_row in abusedAppCsv:
 
 for sample_app_row in sampleAppDataCsv:
     targetData[sample_app_row[1]] = int(sample_app_row[2])
-
-print(len(targetData))
 
 trainingDataHeader = next(appFeatureCsv)
 trainingDataHeader.append('target')

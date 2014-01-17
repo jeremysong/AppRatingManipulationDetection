@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 import csv
 import numpy as np
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/naiveTrainingData.csv", 'r')
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/trainingData.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)
@@ -26,16 +26,16 @@ print(indices)
 
 print("Feature ranking:")
 
-for f in xrange(29):
+for f in xrange(len(features)):
     print "%d. %s (%f)" % (f + 1, features[indices[f]], importances[indices[f]])
 
-feature_list = [features[indices[f]] for f in xrange(29)]
+feature_list = [features[indices[f]] for f in xrange(41)]
 print(feature_list)
 
 import pylab as pl
 pl.figure()
 pl.title("Feature importances")
-pl.bar(xrange(29), importances[indices], color="r", align="center")
-pl.xticks(xrange(29), indices)
-pl.xlim([-1, 29])
+pl.bar(xrange(len(features)), importances[indices], color="r", align="center")
+pl.xticks(xrange(len(features)), indices)
+pl.xlim([-1, len(features)])
 pl.show()

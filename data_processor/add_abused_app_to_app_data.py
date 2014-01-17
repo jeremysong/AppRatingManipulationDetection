@@ -1,7 +1,7 @@
 import csv
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/poissonAppData.csv", "r")
-abusedAppFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/143465_abused_apps.txt", "r")
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/posNegWeekAppData.csv", "r")
+abusedAppFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/cn_abused_apps.txt", "r")
 appDataWithAbusedInfoFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/appDataWithAbusedInfo.csv", "w")
 
 appDataCsv = csv.reader(appDataFile, delimiter=',')
