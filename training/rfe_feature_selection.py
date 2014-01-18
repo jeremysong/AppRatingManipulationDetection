@@ -1,6 +1,7 @@
 __author__ = 'jeremy'
 
 from sklearn.svm import LinearSVC
+from sklearn.linear_model import LogisticRegression
 from sklearn.cross_validation import ShuffleSplit
 from sklearn.feature_selection import RFECV
 import csv
@@ -33,7 +34,7 @@ for app_data_row in appDataCsv:
     features_data.append([float(app_data_row[index]) for index in feature_index])
     abused_data.append(int(app_data_row[-1]))
 
-linear = LinearSVC()
+linear = LogisticRegression()
 cv = ShuffleSplit(len(features_data), n_iter=5, test_size=0.2, random_state=0)
 rfecv = RFECV(estimator=linear, step=1, cv=cv, scoring='f1')
 rfecv.fit(np.array(features_data), np.array(abused_data))

@@ -28,7 +28,7 @@ features = ['num_pos_rater', 'perc_pos_rater', 'total_rater', 'var_num_rating_by
             'helpfulness_ratio_avg', 'perc_extr_neg_rater', 'num_extr_neg_rater', 'num_helpfulness',
             'poisson_num_peaks', '5star_num', 'average_rating', 'num_neg_week', 'max_neg_week']
 
-num_estimator = 70
+num_estimator = 25
 
 feature_index = [appDataHeader.index(feature) for feature in features]
 

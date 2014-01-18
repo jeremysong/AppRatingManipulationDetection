@@ -41,10 +41,10 @@ for num_estimators in range(20, 100, 1):
             features_data.append([float(app_data_row[index]) for index in feature_index])
             abused_data.append(int(app_data_row[-1]))
 
-        clf = RandomForestClassifier(n_estimators=num_estimators, max_features='auto')
+        clf = RandomForestClassifier(n_estimators=num_estimators, max_features='log2')
 
         random.seed()
-        cv = cross_validation.ShuffleSplit(len(features_data), n_iter=5, test_size=0.2,
+        cv = cross_validation.ShuffleSplit(len(features_data), n_iter=10, test_size=0.1,
                                            random_state=random.randint(1, 1000))
 
         score_collection = list()

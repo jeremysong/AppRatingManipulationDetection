@@ -25,7 +25,7 @@ for line in abusedDataFile:
 
 benignAppIdSet = appIdSet - abusedAppIdSet
 
-randomAppId = random.sample(benignAppIdSet, 5000)
+randomAppId = random.sample(benignAppIdSet, 8000)
 
 count = 1
 for appId in randomAppId:
