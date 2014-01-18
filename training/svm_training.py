@@ -12,11 +12,11 @@ appDataCsv = csv.reader(appDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)
 
-features = ['num_pos_rater', 'perc_pos_rater', 'total_rater', 'var_perc_4_star_rating_by_week', 'num_neg_rater',
-            'var_perc_5_star_rating_by_week', 'var_avg_rating_by_week', 'num_week', 'perc_helpfulness',
-            'perc_neg_rater', 'var_perc_neg_rater_by_week', 'var_perc_3_star_rating_by_week', 'helpfulness_ratio_avg',
-            'var_perc_2_star_rating_by_week', 'var_perc_1_star_rating_by_week', 'num_dev', 'price',
-            'poisson_first_peak']
+features = ['perc_pos_rater', 'var_perc_5_star_rating_by_week', 'perc_extr_pos_rater', 'var_perc_4_star_rating_by_week',
+ 'perc_max_pos_week', 'price', 'perc_pos_week', 'perc_helpfulness', 'var_perc_neg_rater_by_week',
+ 'var_avg_rating_by_week', 'perc_max_neg_week', 'perc_neg_week', 'var_perc_1_star_rating_by_week', 'average_rating',
+ 'var_perc_2_star_rating_by_week', 'var_perc_pos_rater_by_week', 'num_neg_week', 'poisson_first_peak',
+ 'helpfulness_ratio_avg']
 
 # scores_by_feature = list()
 

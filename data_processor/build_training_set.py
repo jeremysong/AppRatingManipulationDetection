@@ -26,6 +26,8 @@ for abused_app_row in abusedAppCsv:
 for sample_app_row in sampleAppDataCsv:
     targetData[sample_app_row[1]] = int(sample_app_row[2])
 
+print(len(targetData))
+
 trainingDataHeader = next(appFeatureCsv)
 trainingDataHeader.append('target')
 trainingDataCsv.writerow(trainingDataHeader)

@@ -6,7 +6,7 @@ import codecs
 import random
 
 appDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/appData.csv", "r", encoding="utf-8")
-abusedDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/143465_abused_apps.txt", "r", encoding="utf-8")
+abusedDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/cn_abused_apps.txt", "r", encoding="utf-8")
 sampleDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/sample_predict_apps.csv", "w")
 
 # Ignore header
@@ -25,7 +25,7 @@ for line in abusedDataFile:
 
 benignAppIdSet = appIdSet - abusedAppIdSet
 
-randomAppId = random.sample(benignAppIdSet, 1000)
+randomAppId = random.sample(benignAppIdSet, 5000)
 
 count = 1
 for appId in randomAppId:

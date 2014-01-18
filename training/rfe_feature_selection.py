@@ -12,13 +12,15 @@ appDataCsv = csv.reader(appDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)
 
-features = ['num_pos_rater', 'perc_pos_rater', 'var_num_rating_by_week', 'total_rater',
-            'var_perc_4_star_rating_by_week', 'num_neg_rater', '4star_num', 'var_perc_5_star_rating_by_week',
-            'var_avg_rating_by_week', 'num_week', 'perc_helpfulness', 'perc_neg_rater', 'var_perc_neg_rater_by_week',
-            'var_perc_3_star_rating_by_week', 'helpfulness_ratio_avg', 'var_perc_2_star_rating_by_week',
-            'var_perc_1_star_rating_by_week', 'num_dev', 'price', 'poisson_first_peak', 'poisson_last_peek',
-            'var_perc_pos_rater_by_week', 'num_helpfulness', '1star_num', '5star_num', '3star_num', 'average_rating',
-            'poisson_num_peaks', '2star_num']
+features = ['num_pos_rater', 'var_num_rating_by_week', 'total_rater', 'perc_pos_rater', 'num_extr_pos_rater',
+            'var_perc_5_star_rating_by_week', 'num_dev', 'num_neg_rater', 'perc_extr_pos_rater',
+            'var_perc_4_star_rating_by_week', 'perc_max_pos_week', '4star_num', 'price', '3star_num', 'perc_pos_week',
+            'perc_neg_rater', 'perc_helpfulness', 'var_perc_neg_rater_by_week', 'var_perc_3_star_rating_by_week',
+            'max_pos_week', 'num_week', 'var_avg_rating_by_week', 'num_pos_week', 'perc_max_neg_week', 'perc_neg_week',
+            'var_perc_1_star_rating_by_week', 'average_rating', 'perc_extr_neg_rater', 'var_perc_2_star_rating_by_week',
+            'var_perc_pos_rater_by_week', '1star_num', 'poisson_num_peaks', 'num_neg_week', 'poisson_first_peak',
+            'poisson_last_peek', 'num_helpfulness', 'num_extr_neg_rater', 'helpfulness_ratio_avg', '2star_num',
+            '5star_num', 'max_neg_week']
 
 best_scores = list()
 
@@ -40,7 +42,7 @@ print("Optimal number of features : %d" % rfecv.n_features_)
 ranking = rfecv.ranking_
 print(ranking)
 
-feature_selection = [features[index] for index in range(0, 20) if ranking[index] == 1]
+feature_selection = [features[index] for index in range(0, len(features)-1) if ranking[index] == 1]
 print(feature_selection)
 
 # Plot number of features VS. cross-validation scores
