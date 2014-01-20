@@ -12,7 +12,7 @@ import matplotlib.pylab as plt
 import random
 from sklearn.metrics import precision_recall_fscore_support
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/trainingData.csv", 'r')
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/trainingData.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)
