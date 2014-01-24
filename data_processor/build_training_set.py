@@ -6,9 +6,9 @@ __author__ = 'jeremy'
 
 import csv
 
-iTunesDataFolder = '/Users/jeremy/Google Drive/PSU/thesis/itunes_data/'
+iTunesDataFolder = '/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/'
 
-appFeatureFile = open(iTunesDataFolder + 'posNegWeekAppData.csv', 'r')
+appFeatureFile = open(iTunesDataFolder + 'varVersionRatingAppData.csv', 'r')
 abusedAppFile = open(iTunesDataFolder + 'cn_abused_apps.txt', 'r')
 sampleAppDataFile = open(iTunesDataFolder + 'sample_total.csv', 'r')
 trainingDataFile = open(iTunesDataFolder + 'trainingData.csv', 'w')

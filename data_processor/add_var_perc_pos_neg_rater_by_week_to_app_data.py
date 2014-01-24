@@ -3,9 +3,9 @@ from datetime import datetime
 import MySQLdb
 import numpy
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/varRatingAppData.csv", "r")
-reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/posNegReviewerData.csv", "r")
-varPercPosNegRaterFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/varPercPosNegRaterAppData.csv", "w")
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/posNegWeekAppData.csv", "r")
+reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/posNegReviewerData.csv", "r")
+varPercPosNegRaterFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/posNegWeekAppData.csv.fix", "w")
 
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 reviewerDataCsv = csv.reader(reviewerDataFile, delimiter=',')
@@ -74,8 +74,8 @@ for app_data_row in appDataCsv:
     pos_neg_perc_by_week = comment_perc_rater_dict[app_id]
     num_week = len(pos_neg_perc_by_week)
     for week_key in pos_neg_perc_by_week:
-        perc_neg_rater_by_week.append(pos_neg_perc_by_week[week_key]["perc_pos_rater"])
-        perc_pos_rater_by_week.append(pos_neg_perc_by_week[week_key]["perc_neg_rater"])
+        perc_pos_rater_by_week.append(pos_neg_perc_by_week[week_key]["perc_pos_rater"])
+        perc_neg_rater_by_week.append(pos_neg_perc_by_week[week_key]["perc_neg_rater"])
     var_perc_pos_rater = numpy.var(perc_pos_rater_by_week)
     var_perc_neg_rater = numpy.var(perc_neg_rater_by_week)
     app_data_row.append(var_perc_pos_rater)

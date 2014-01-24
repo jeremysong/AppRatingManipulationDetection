@@ -7,8 +7,8 @@ __author__ = 'jeremy'
 
 import csv
 
-reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/posNegReviewerData.csv", "r")
-extrPosNegReviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/extrPosNegReviewerData.csv", "w")
+reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/posNegReviewerData.csv", "r")
+extrPosNegReviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/extrPosNegReviewerData.csv", "w")
 
 reviewerDataCsv = csv.reader(reviewerDataFile, delimiter=',')
 extrPosNegReviewerDataCsv = csv.writer(extrPosNegReviewerDataFile, delimiter=',')

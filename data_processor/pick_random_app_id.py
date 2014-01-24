@@ -5,9 +5,9 @@ Picks random apps from non-labeled app set.
 import codecs
 import random
 
-appDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/appData.csv", "r", encoding="utf-8")
-abusedDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/cn_abused_apps.txt", "r", encoding="utf-8")
-sampleDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/sample_predict_apps.csv", "w")
+appDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/appData.csv", "r", encoding="utf-8")
+abusedDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/cn_abused_apps.txt", "r", encoding="utf-8")
+sampleDataFile = codecs.open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/sample_predict_apps.csv", "w")
 
 # Ignore header
 appDataFile.readline()
@@ -25,7 +25,7 @@ for line in abusedDataFile:
 
 benignAppIdSet = appIdSet - abusedAppIdSet
 
-randomAppId = random.sample(benignAppIdSet, 8000)
+randomAppId = random.sample(benignAppIdSet, 9000)
 
 count = 1
 for appId in randomAppId:

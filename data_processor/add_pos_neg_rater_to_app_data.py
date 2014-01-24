@@ -5,15 +5,15 @@ Notes that the total_raters in AppData is not accurate. So get this number from 
 import MySQLdb
 import csv
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/devNumAppData.csv", "r")
-reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/posNegReviewerData.csv", "r")
-appDataWithPosNegRaterFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/posNegAppData.csv", "w")
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/devNumAppData.csv", "r")
+reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/posNegReviewerData.csv", "r")
+appDataWithPosNegRaterFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/posNegAppData.csv", "w")
 
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 reviewerDataCsv = csv.reader(reviewerDataFile, delimiter=',')
 appDataWithPosNegRaterCsv = csv.writer(appDataWithPosNegRaterFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 
 appDataFileHeader = next(appDataCsv)

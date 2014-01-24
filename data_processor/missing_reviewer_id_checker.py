@@ -4,7 +4,7 @@ Find all the missing reviewer IDs in Reviewers table
 
 import MySQLdb
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 comment_sql = "SELECT reviewer_id FROM Comment"
 reviewer_sql = "SELECT reviewer_id FROM Reviewers"

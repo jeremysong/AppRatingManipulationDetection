@@ -1,13 +1,13 @@
 import csv
 import MySQLdb
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/appData.csv", "r")
-appDataUpdatedTotalRaterFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/updateTotalRaterAppData.csv", "w")
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/appData.csv", "r")
+appDataUpdatedTotalRaterFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/updateTotalRaterAppData.csv", "w")
 
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 appDataUpdatedTotalRaterCsv = csv.writer(appDataUpdatedTotalRaterFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 comment_sql = "SELECT COUNT(*) FROM Comment WHERE app_id="
 

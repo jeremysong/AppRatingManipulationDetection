@@ -1,10 +1,10 @@
 import MySQLdb
 import csv
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/appData.csv", "w")
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/appData.csv", "w")
 appDataCsv = csv.writer(appDataFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 appDataSql = "SELECT app_id, average_rating, total_raters, 1star_num, 2star_num, 3star_num, 4star_num, 5star_num, price, Developer_name FROM AppData"
 cur.execute(appDataSql)

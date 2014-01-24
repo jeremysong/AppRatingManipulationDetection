@@ -1,21 +1,23 @@
 """
-Rebuild reviewer data from Comment table in Crawler_apple database
+Rebuild reviewer data from Comment table in Crawler_apple database. Use SSCursor to deal with large dataset.
 """
 
 import MySQLdb
+import MySQLdb.cursors
 import csv
 
-reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/completeReviewerData.csv", "w")
+reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/completeReviewerData.csv", "w")
 reviewerDataCsv = csv.writer(reviewerDataFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us",
+                     cursorclass=MySQLdb.cursors.SSCursor)
 cur = db.cursor()
 comment_sql = "SELECT reviewer_id, app_id, date, rating FROM Comment"
 cur.execute(comment_sql)
 
 reviewer_dict = dict()
 
-for comment_row in cur.fetchall():
+for comment_row in cur:
     reviewer_id = comment_row[0]
     app_id = comment_row[1]
     date = comment_row[2].split(' ')[0]

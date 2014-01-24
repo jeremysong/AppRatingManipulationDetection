@@ -3,12 +3,12 @@ import MySQLdb
 from datetime import datetime
 import numpy
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/helpfulnessAppData.csv", "r")
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/helpfulnessAppData.csv", "r")
 appDataFileCsvReader = csv.reader(appDataFile, delimiter=',')
-varRatingAppDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/varRatingAppData.csv", "w")
+varRatingAppDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/varRatingAppData.csv", "w")
 varRatingAppDataCsvWriter = csv.writer(varRatingAppDataFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 comment_sql = "SELECT app_id, date, rating FROM Comment"
 cur.execute(comment_sql)

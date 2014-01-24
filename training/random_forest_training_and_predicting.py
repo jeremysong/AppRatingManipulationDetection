@@ -7,9 +7,9 @@ __author__ = 'jeremy'
 from sklearn.ensemble import RandomForestClassifier
 import csv
 
-trainingDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/trainingData.csv", 'r')
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/posNegWeekAppData.csv", 'r')
-predictionDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/sample_predict_apps.csv", 'r')
+trainingDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/trainingData.csv", 'r')
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/varVersionRatingAppData.csv", 'r')
+predictionDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/sample_predict_apps.csv", 'r')
 
 trainingDataCsv = csv.reader(trainingDataFile, delimiter=',')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
@@ -26,7 +26,12 @@ features = ['num_pos_rater', 'perc_pos_rater', 'total_rater', 'var_num_rating_by
             'var_perc_pos_rater_by_week', 'var_perc_3_star_rating_by_week', '3star_num', '4star_num',
             'var_perc_neg_rater_by_week', '1star_num', 'perc_pos_week', 'price', 'num_dev', 'max_pos_week',
             'helpfulness_ratio_avg', 'perc_extr_neg_rater', 'num_extr_neg_rater', 'num_helpfulness',
-            'poisson_num_peaks', '5star_num', 'average_rating', 'num_neg_week', 'max_neg_week']
+            'poisson_num_peaks', '5star_num', 'average_rating', 'num_neg_week', 'max_neg_week',
+            'var_perc_pos_rater_by_week_by_version', 'var_perc_neg_rater_by_week_by_version',
+            "var_num_rating_by_week_by_version", "var_avg_rating_by_week_by_version",
+            "var_perc_1_star_rating_by_week_by_version", "var_perc_2_star_rating_by_week_by_version",
+            "var_perc_3_star_rating_by_week_by_version", "var_perc_4_star_rating_by_week_by_version",
+            "var_perc_5_star_rating_by_week_by_version"]
 
 num_estimator = 25
 

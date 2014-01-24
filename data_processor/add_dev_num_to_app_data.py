@@ -4,9 +4,9 @@ Test this program before being used.
 
 import csv
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/updateTotalRaterAppData.csv", "r")
+appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/updateTotalRaterAppData.csv", "r")
 appDataCsv = csv.reader(appDataFile, delimiter=',')
-preProcessedAppDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/devNumAppData.csv", "w")
+preProcessedAppDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/devNumAppData.csv", "w")
 preProcessedAppDataCsvWriter = csv.writer(preProcessedAppDataFile, delimiter=',')
 
 developer_dict = dict()
