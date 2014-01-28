@@ -6,3 +6,5 @@
 *.pyc
 *~
 *.xlsx
+*_data/
+*_data/
