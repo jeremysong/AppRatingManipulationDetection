@@ -2,7 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 
-numRaterCommentFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/numRaterCommentAnalysis.csv", 'r')
+numRaterCommentFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/numRaterCommentAnalysis.csv", 'r')
 numRaterCommentCsv = csv.reader(numRaterCommentFile, delimiter=',')
 
 one_rating_percentage = list()

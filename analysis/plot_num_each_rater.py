@@ -5,8 +5,8 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy
 
-app_id = '399363156'
-app_version = '2.1'
+app_id = '398157641'
+app_version = '2.4.1'
 
 db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
 cur = db.cursor()
@@ -57,5 +57,5 @@ bar2 = ax.bar(numpy.arange(1, len(comment_dict) + 1) - 0.15, twoStarRatings, col
 bar3 = ax.bar(numpy.arange(1, len(comment_dict) + 1), threeStarRatings, color='b', width=0.15)
 bar4 = ax.bar(numpy.arange(1, len(comment_dict) + 1) + 0.15, fourStarRatings, color='grey', width=0.15)
 bar5 = ax.bar(numpy.arange(1, len(comment_dict) + 1) + 0.3, fiveStarRatings, color='brown', width=0.15)
-ax.legend( [bar1, bar2, bar3, bar4, bar5], ['1 star', '2 star', '3 star', '4 star', '5 star'])
+ax.legend([bar1, bar2, bar3, bar4, bar5], ['1 star', '2 star', '3 star', '4 star', '5 star'])
 plt.show()
