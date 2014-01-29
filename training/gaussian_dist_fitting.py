@@ -1,5 +1,5 @@
 """
-Fitting number of comments of each week to poisson distribution
+Fitting number of comments of each week to Gaussian distribution.
 """
 
 __author__ = 'jeremy'
@@ -8,23 +8,23 @@ import math
 import MySQLdb
 from datetime import datetime
 import numpy as np
-from scipy.stats import poisson
+from scipy.stats import norm
 from scipy import optimize
 import matplotlib.pyplot as plt
 
 
-def residuals(l, y, x):
+def residuals(params, y, x):
     """
     Residuals for estimating error
     """
-    err = y - poisson(l).pmf(x)
+    err = y - norm.pdf(x, params[0], params[1])
     return err
 
 
 def get_fitting_parameters(app_id, plot=False):
     """
-    Find all the parameter lambda in Poisson distribution that fit the num of comment by week.
-    Return a set of those parameters and number of total weeks
+    Find all the parameter lambda in Gaussian distribution that fit the number of comment by week.
+    Return a set of those parameters(in dictionary) and number of total weeks.
     """
     db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
     cur = db.cursor()
@@ -52,23 +52,30 @@ def get_fitting_parameters(app_id, plot=False):
     x_range = np.arange(0, num_week, 1)
 
     l_set = set()
-    max_index = [num_comment.index(m) for m in sorted(num_comment)[-int(math.ceil(len(num_comment) / 5.0)):]]
+    max_index = [num_comment.index(m) for m in sorted(num_comment)[-int(math.ceil(len(num_comment) / 10.0)):]]
+    # Only fits limited data instead of whole data set
+    data_span = 0 if num_week <= 10 else 5
 
-    for l0 in set(max_index):
-        l_fit = optimize.leastsq(residuals, l0, args=(num_comment, x_range))
-        if math.isnan(l_fit[0][0]):
+    for center in set(max_index):
+        #l_fit = optimize.leastsq(residuals, [l0, 10], args=(num_comment, x_range))
+        #l_set.add(str(round(l_fit[0][0], 0)) + ',' + str(l_fit[1]))
+        upper_bound = num_week + 1 if center + data_span + 1 > num_week else center + data_span + 1
+        lower_bound = 0 if center - data_span < 0 else center - data_span
+        fitted_data = num_comment if num_week <= 10 else num_comment[lower_bound: upper_bound]
+        print(fitted_data)
+        mu, std = norm.fit(fitted_data)
+        if math.isnan(mu):
             continue
-        l_set.add(round(l_fit[0][0], 0))
+        l_set.add(str(round(mu, 0)) + ',' + str(std))
 
     if plot:
         fig = plt.subplot()
-        fig.set_ylabel('Percentage of Number of Comment')
-        fig.set_xlabel('Week')
         for l in l_set:
-            poisson_y = poisson(l).pmf(x_range)
-            fig.plot(x_range, poisson_y, color='r', label='Poisson Distribution(' + str(l) + ')')
-        fig.plot(x_range, perc_comment, color='b', label='Percentage of Number of Comment')
-        fig.legend()
+            params = map(float, l.split(','))
+            gaussian_dist = norm.pdf(np.arange(0, num_week, 0.2), params[0], params[1])
+            fig.plot(np.arange(0, num_week, 0.2), gaussian_dist)
+        fig.plot(np.arange(0, num_week), perc_comment)
+        #fig.legend()
         plt.show()
 
     return l_set, num_week
