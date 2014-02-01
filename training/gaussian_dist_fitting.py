@@ -9,7 +9,6 @@ import MySQLdb
 from datetime import datetime
 import numpy as np
 from scipy.stats import norm
-from scipy import optimize
 import matplotlib.pyplot as plt
 
 

@@ -75,7 +75,7 @@ def get_fitting_parameters(app_id, plot=False):
 
 
 if __name__ == '__main__':
-    app_ids = ['405229260']
+    app_ids = ['398157641']
 
     for app_id in app_ids:
         fitting_params, weeks = get_fitting_parameters(app_id, plot=True)
