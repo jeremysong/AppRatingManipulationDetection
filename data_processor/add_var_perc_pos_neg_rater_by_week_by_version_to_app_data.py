@@ -9,16 +9,16 @@ from datetime import datetime
 import MySQLdb
 import numpy
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/posNegWeekAppData.csv", 'r')
-reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/posNegReviewerData.csv", 'r')
+appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/posNegWeekAppData.csv", 'r')
+reviewerDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/posNegReviewerData.csv", 'r')
 versionVarPercPosNegRaterFile = open(
-    "/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/varVersionPercPosNegRaterAppData.csv", 'w')
+    "/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/varVersionPercPosNegRaterAppData.csv", 'w')
 
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 reviewerDataCsv = csv.reader(reviewerDataFile, delimiter=',')
 versionVarPercPosNegRaterCsv = csv.writer(versionVarPercPosNegRaterFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 comment_sql = "SELECT app_id, date, reviewer_id, device_version FROM Comment"
 cur.execute(comment_sql)

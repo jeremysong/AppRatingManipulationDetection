@@ -21,12 +21,12 @@ def residuals(l, y, x):
     return err
 
 
-def get_fitting_parameters(app_id, plot=False):
+def get_fitting_parameters(app_id, db_name, plot=False):
     """
     Find all the parameter lambda in Poisson distribution that fit the num of comment by week.
     Return a set of those parameters and number of total weeks
     """
-    db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+    db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db=db_name)
     cur = db.cursor()
     comment_sql = "SELECT date, COUNT(*) FROM Comment WHERE app_id=" + "'" + app_id + "'" + "GROUP BY date "
     cur.execute(comment_sql)
@@ -75,8 +75,8 @@ def get_fitting_parameters(app_id, plot=False):
 
 
 if __name__ == '__main__':
-    app_ids = ['398157641']
+    app_ids = ['691029209']
 
     for app_id in app_ids:
-        fitting_params, weeks = get_fitting_parameters(app_id, plot=True)
+        fitting_params, weeks = get_fitting_parameters(app_id, "Crawler_apple_us", plot=True)
         print(fitting_params, weeks)

@@ -7,15 +7,15 @@ __author__ = 'jeremy'
 import csv
 import MySQLdb
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/poissonAppData.csv", 'r')
-reviewerDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/extrPosNegReviewerData.csv", 'r')
-appDataWithExtrPosNegRaterFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/extrPosNegAppData.csv", 'w')
+appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/poissonAppData.csv", 'r')
+reviewerDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/extrPosNegReviewerData.csv", 'r')
+appDataWithExtrPosNegRaterFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/extrPosNegAppData.csv", 'w')
 
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 reviewerDataCsv = csv.reader(reviewerDataFile, delimiter=',')
 appDataWithExtrPosNegRaterCsv = csv.writer(appDataWithExtrPosNegRaterFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 
 appDataFileHeader = next(appDataCsv)

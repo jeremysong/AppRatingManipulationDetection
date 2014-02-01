@@ -7,8 +7,8 @@ __author__ = 'jeremy'
 import csv
 from training import poission_dist_fitting as pdf
 
-appDataFile = open('/Users/jeremy/Google Drive/PSU/thesis/itunes_data/varPercPosNegRaterAppData.csv', 'r')
-poissonAppDataFile = open('/Users/jeremy/Google Drive/PSU/thesis/itunes_data/poissonAppData.csv', 'w')
+appDataFile = open('/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/varPercPosNegRaterAppData.csv', 'r')
+poissonAppDataFile = open('/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/poissonAppData.csv', 'w')
 
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 poissonAppDataCsv = csv.writer(poissonAppDataFile, delimiter=',')
@@ -17,9 +17,11 @@ appDataHeader = next(appDataCsv)
 appDataHeader.extend(['poisson_num_peaks', 'poisson_first_peak', 'poisson_last_peak'])
 poissonAppDataCsv.writerow(appDataHeader)
 
+db_name = "Crawler_apple_us"
+
 for app_data_row in appDataCsv:
     app_id = app_data_row[0]
-    l_params, num_week = pdf.get_fitting_parameters(app_id)
+    l_params, num_week = pdf.get_fitting_parameters(app_id, db_name)
     num_peaks = len(l_params)
     if not l_params:
         first_peak = 0

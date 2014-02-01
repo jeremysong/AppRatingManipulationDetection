@@ -9,13 +9,13 @@ import numpy as np
 
 __author__ = 'jeremy'
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/varVersionPercPosNegRaterAppData.csv", 'r')
-varVersionRatingAppDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_cn_data/varVersionRatingAppData.csv", 'w')
+appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/varVersionPercPosNegRaterAppData.csv", 'r')
+varVersionRatingAppDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/varVersionRatingAppData.csv", 'w')
 
 appDataFileCsv = csv.reader(appDataFile, delimiter=',')
 varVersionRatingCsv = csv.writer(varVersionRatingAppDataFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 comment_sql = "SELECT app_id, date, rating, device_version FROM Comment"
 cur.execute(comment_sql)

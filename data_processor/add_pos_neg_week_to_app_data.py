@@ -9,13 +9,13 @@ import MySQLdb
 from datetime import datetime
 import collections
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/extrPosNegAppData.csv", 'r')
-posNegWeekAppDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/posNegWeekAppData.csv", 'w')
+appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/extrPosNegAppData.csv", 'r')
+posNegWeekAppDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/posNegWeekAppData.csv", 'w')
 
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 posNegWeekAppDataCsv = csv.writer(posNegWeekAppDataFile, delimiter=',')
 
-db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
+db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
 cur = db.cursor()
 comment_sql = "SELECT app_id, date, rating FROM Comment"
 cur.execute(comment_sql)

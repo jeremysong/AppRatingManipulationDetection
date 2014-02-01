@@ -24,7 +24,7 @@ for abused_app_row in abusedAppCsv:
     targetData[abused_app_row[1].strip()] = 1
 
 for sample_app_row in sampleAppDataCsv:
-    targetData[sample_app_row[1]] = int(sample_app_row[2])
+    targetData[sample_app_row[0]] = int(sample_app_row[1])
 
 print(len(targetData))
 
