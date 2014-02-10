@@ -67,7 +67,7 @@ def get_fitting_parameters(app_id, db_name, plot=False):
         for l in l_set:
             poisson_y = poisson(l).pmf(x_range)
             fig.plot(x_range, poisson_y, color='r', label='Poisson Distribution(' + str(l) + ')')
-        fig.plot(x_range, perc_comment, color='b', label='Percentage of Number of Comment')
+        fig.plot(x_range, perc_comment, color='b', label='Percentage of Number of Comments')
         fig.legend()
         plt.show()
 
@@ -75,8 +75,8 @@ def get_fitting_parameters(app_id, db_name, plot=False):
 
 
 if __name__ == '__main__':
-    app_ids = ['691029209']
+    app_ids = ['460351323']
 
     for app_id in app_ids:
-        fitting_params, weeks = get_fitting_parameters(app_id, "Crawler_apple_us", plot=True)
+        fitting_params, weeks = get_fitting_parameters(app_id, "Crawler_apple", plot=True)
         print(fitting_params, weeks)

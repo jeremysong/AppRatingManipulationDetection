@@ -12,6 +12,7 @@ import matplotlib.pylab as plt
 import random
 from sklearn.metrics import precision_recall_fscore_support
 
+
 appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/trainingData.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 
@@ -21,7 +22,7 @@ features = ['num_pos_rater', 'perc_pos_rater', 'total_rater', 'var_num_rating_by
             'var_avg_rating_by_week', 'num_extr_pos_rater', 'num_pos_week', 'num_week', 'poisson_first_peak',
             'var_perc_5_star_rating_by_week', 'var_perc_1_star_rating_by_week', 'perc_max_pos_week',
             'perc_max_neg_week', 'num_neg_rater', 'perc_neg_week', 'perc_neg_rater', 'var_perc_4_star_rating_by_week',
-            '2star_num', 'var_perc_2_star_rating_by_week', 'perc_helpfulness', 'poisson_last_peek',
+            '2star_num', 'var_perc_2_star_rating_by_week', 'perc_helpfulness', 'poisson_last_peak',
             'var_perc_pos_rater_by_week', 'var_perc_3_star_rating_by_week', '3star_num', '4star_num',
             'var_perc_neg_rater_by_week', '1star_num', 'perc_pos_week', 'price', 'num_dev', 'max_pos_week',
             'helpfulness_ratio_avg', 'perc_extr_neg_rater', 'num_extr_neg_rater', 'num_helpfulness',
@@ -32,23 +33,27 @@ features = ['num_pos_rater', 'perc_pos_rater', 'total_rater', 'var_num_rating_by
             "var_perc_3_star_rating_by_week_by_version", "var_perc_4_star_rating_by_week_by_version",
             "var_perc_5_star_rating_by_week_by_version"]
 
+precision_score_collection = list()
+recall_score_collection = list()
 f1_score_collection = list()
 
-for num_estimators in range(20, 100, 1):
-    features_data = list()
-    abused_data = list()
+features_data = list()
+abused_data = list()
 
-    feature_index = [appDataHeader.index(feature) for feature in features]
+feature_index = [appDataHeader.index(feature) for feature in features]
 
-    for app_data_row in appDataCsv:
-        features_data.append([float(app_data_row[index]) for index in feature_index])
-        abused_data.append(int(app_data_row[-1]))
+for app_data_row in appDataCsv:
+    features_data.append([float(app_data_row[index]) for index in feature_index])
+    abused_data.append(int(app_data_row[-1]))
 
-    clf = RandomForestClassifier(n_estimators=num_estimators, max_features='log2')
+random.seed()
+cv = cross_validation.ShuffleSplit(len(features_data), n_iter=10, test_size=0.1,
+                                   random_state=random.randint(1, 1000))
 
-    random.seed()
-    cv = cross_validation.ShuffleSplit(len(features_data), n_iter=10, test_size=0.1,
-                                       random_state=random.randint(1, 1000))
+num_estimator_range = range(60, 100, 1)
+
+for num_estimators in num_estimator_range:
+    clf = RandomForestClassifier(n_estimators=63, max_features='log2')
 
     score_collection = list()
 
@@ -63,6 +68,8 @@ for num_estimators in range(20, 100, 1):
         scores = precision_recall_fscore_support(test_target, prediction)
         score_collection.append(scores)
 
+    precision_score = np.average([scores[0] for scores in score_collection])
+    recall_score = np.average([scores[1] for scores in score_collection])
     f1_score = np.average([scores[2] for scores in score_collection])
     print('Average precision: {0:f}. Average recall: {1:f}. Average f1: {2:f}'.format(
         np.average([scores[0] for scores in score_collection]),
@@ -72,6 +79,8 @@ for num_estimators in range(20, 100, 1):
     appDataFile.seek(0)
     next(appDataCsv)
 
+    precision_score_collection.append(precision_score)
+    recall_score_collection.append(recall_score)
     f1_score_collection.append(f1_score)
     # max_score = max(scores_by_feature)
     # index = scores_by_feature.index(max_score)
@@ -82,8 +91,14 @@ for num_estimators in range(20, 100, 1):
 max_score = max(f1_score_collection)
 min_score = min(f1_score_collection)
 num_estimator = f1_score_collection.index(max_score)
-print('Number of estimator: {0:d}. Best score: {1:f}. Worst score: {2:f}. Average score: {3:f}'.format(
-    num_estimator + 1, max_score, min_score, np.average(f1_score_collection)))
-plt.bar(range(20, 100, 1), f1_score_collection, align="center")
-plt.xlim([20, 100])
+print('Number of estimator: {0:d}. F1 --- Best score: {1:f}. Worst score: {2:f}. Average score: {3:f}'.format(
+    num_estimator_range[num_estimator], max_score, min_score, np.average(f1_score_collection)))
+print('Precision --- Best score: {0:f}. Worst score: {1:f}. Average score: {2:f}'.format(
+    max(precision_score_collection), min(precision_score_collection), np.average(precision_score_collection)
+))
+print('Recall --- Best score: {0:f}. Worst score: {1:f}. Average score: {2:f}'.format(
+    max(recall_score_collection), min(recall_score_collection), np.average(recall_score_collection)
+))
+plt.bar(num_estimator_range, f1_score_collection, align="center")
+plt.xlim([num_estimator_range[0], num_estimator_range[-1]])
 plt.show()

@@ -5,8 +5,8 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy
 
-app_id = '398157641'
-app_version = '2.4.1'
+app_id = '585027354'
+app_version = '2.0'
 
 db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple")
 cur = db.cursor()
@@ -27,6 +27,9 @@ for comment_row in cur.fetchall():
         comment_dict[week_key] = [rating]
     else:
         comment_dict[week_key].append(rating)
+
+cur.close()
+db.close()
 
 rating_order_by_week = [comment_dict[index] for index in sorted(comment_dict.iterkeys())]
 
