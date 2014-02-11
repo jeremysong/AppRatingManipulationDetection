@@ -6,40 +6,46 @@ __author__ = 'jeremy'
 
 import csv
 
-iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
 
-appFeatureFile = open(iTunesDataFolder + 'varVersionRatingAppData.csv', 'r')
-abusedAppFile = open(iTunesDataFolder + 'us_abused_apps.txt', 'r')
-sampleAppDataFile = open(iTunesDataFolder + 'sample_total.csv', 'r')
-trainingDataFile = open(iTunesDataFolder + 'trainingData.csv', 'w')
+def generate_training_set(data_path):
+    app_feature_file = open(data_path + 'varVersionRatingAppData.csv', 'r')
+    abused_app_file = open(data_path + 'us_abused_apps.txt', 'r')
+    sample_app_data_file = open(data_path + 'sample_total.csv', 'r')
+    training_data_file = open(data_path + 'trainingData.csv', 'w')
 
-appFeatureCsv = csv.reader(appFeatureFile, delimiter=',')
-abusedAppCsv = csv.reader(abusedAppFile, delimiter='.')
-sampleAppDataCsv = csv.reader(sampleAppDataFile, delimiter=',')
-trainingDataCsv = csv.writer(trainingDataFile, delimiter=',')
+    app_feature_csv = csv.reader(app_feature_file, delimiter=',')
+    abused_app_csv = csv.reader(abused_app_file, delimiter='.')
+    sample_app_data_csv = csv.reader(sample_app_data_file, delimiter=',')
+    training_data_csv = csv.writer(training_data_file, delimiter=',')
 
-targetData = dict()
+    target_data = dict()
 
-for abused_app_row in abusedAppCsv:
-    targetData[abused_app_row[1].strip()] = 1
+    for abused_app_row in abused_app_csv:
+        target_data[abused_app_row[1].strip()] = 1
 
-for sample_app_row in sampleAppDataCsv:
-    targetData[sample_app_row[0]] = int(sample_app_row[1])
+    for sample_app_row in sample_app_data_csv:
+        target_data[sample_app_row[0]] = int(sample_app_row[1])
 
-print(len(targetData))
+    print(len(target_data))
 
-trainingDataHeader = next(appFeatureCsv)
-trainingDataHeader.append('target')
-trainingDataCsv.writerow(trainingDataHeader)
+    training_data_header = next(app_feature_csv)
+    training_data_header.append('target')
+    training_data_csv.writerow(training_data_header)
 
-for app_feature_row in appFeatureCsv:
-    app_id = app_feature_row[0]
-    if app_id in targetData:
-        app_feature_row.append(targetData[app_id])
-        trainingDataCsv.writerow(app_feature_row)
-        targetData.pop(app_id)
+    for app_feature_row in app_feature_csv:
+        app_id = app_feature_row[0]
+        if app_id in target_data:
+            app_feature_row.append(target_data[app_id])
+            training_data_csv.writerow(app_feature_row)
+            target_data.pop(app_id)
 
-appFeatureFile.close()
-abusedAppFile.close()
-sampleAppDataFile.close()
-trainingDataFile.close()
+    app_feature_file.close()
+    abused_app_file.close()
+    sample_app_data_file.close()
+    training_data_file.close()
+    print('Finish building training set.')
+
+
+if __name__ == '__main__':
+    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
+    generate_training_set(__data_path)

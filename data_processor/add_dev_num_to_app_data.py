@@ -4,33 +4,40 @@ Test this program before being used.
 
 import csv
 
-appDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/updateTotalRaterAppData.csv", "r")
-appDataCsv = csv.reader(appDataFile, delimiter=',')
-preProcessedAppDataFile = open("/Users/jeremy/Google Drive/PSU/thesis/itunes_data/itunes_us_data/devNumAppData.csv", "w")
-preProcessedAppDataCsvWriter = csv.writer(preProcessedAppDataFile, delimiter=',')
 
-developer_dict = dict()
+def generate_features(data_path):
+    app_data_file = open(data_path + "appData.csv", "r")
+    app_data_csv = csv.reader(app_data_file, delimiter=',')
+    pre_processed_app_data_file = open(data_path + "devNumAppData.csv", "w")
+    pre_processed_app_data_csv_writer = csv.writer(pre_processed_app_data_file, delimiter=',')
 
-appDataHeader = next(appDataCsv)
+    developer_dict = dict()
 
-for app_data_row in appDataCsv:
-    developer_name = app_data_row[9]
-    if developer_name not in developer_dict:
-        developer_dict[developer_name] = 1
-    else:
-        developer_dict[developer_name] += 1
+    app_data_header = next(app_data_csv)
 
-# Reset appDataFile
-appDataFile.seek(0)
-next(appDataCsv)
+    for app_data_row in app_data_csv:
+        developer_name = app_data_row[9]
+        if developer_name not in developer_dict:
+            developer_dict[developer_name] = 1
+        else:
+            developer_dict[developer_name] += 1
 
-appDataHeader[9] = "num_dev"
-preProcessedAppDataCsvWriter.writerow(appDataHeader)
+    # Reset appDataFile
+    app_data_file.seek(0)
+    next(app_data_csv)
 
-for app_data_row in appDataCsv:
-    developer_name = app_data_row[9]
-    app_data_row[9] = developer_dict[app_data_row[9]]
-    preProcessedAppDataCsvWriter.writerow(app_data_row)
+    app_data_header[9] = "num_dev"
+    pre_processed_app_data_csv_writer.writerow(app_data_header)
 
-appDataFile.close()
-preProcessedAppDataFile.close()
+    for app_data_row in app_data_csv:
+        app_data_row[9] = developer_dict[app_data_row[9]]
+        pre_processed_app_data_csv_writer.writerow(app_data_row)
+
+    app_data_file.close()
+    pre_processed_app_data_file.close()
+    print("Finish adding dev_num feature.")
+
+
+if __name__ == '__main__':
+    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
+    generate_features(__data_path)

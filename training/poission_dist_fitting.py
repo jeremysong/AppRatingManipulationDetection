@@ -21,12 +21,12 @@ def residuals(l, y, x):
     return err
 
 
-def get_fitting_parameters(app_id, db_name, plot=False):
+def get_fitting_parameters(app_id, host, user, passwd, db_name, plot=False):
     """
     Find all the parameter lambda in Poisson distribution that fit the num of comment by week.
     Return a set of those parameters and number of total weeks
     """
-    db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db=db_name)
+    db = MySQLdb.connect(host=host, user=user, passwd=passwd, db=db_name)
     cur = db.cursor()
     comment_sql = "SELECT date, COUNT(*) FROM Comment WHERE app_id=" + "'" + app_id + "'" + "GROUP BY date "
     cur.execute(comment_sql)
@@ -36,9 +36,9 @@ def get_fitting_parameters(app_id, db_name, plot=False):
     for comment_row in cur.fetchall():
         date = datetime.strptime(comment_row[0].split(' ')[0], '%m/%d/%y').date()
         num_comment = int(comment_row[1])
-        isoCalendar = date.isocalendar()
-        year = isoCalendar[0]
-        nth_week = isoCalendar[1]
+        iso_calendar = date.isocalendar()
+        year = iso_calendar[0]
+        nth_week = iso_calendar[1]
         week_key = str(year) + str(nth_week) if nth_week >= 10 else str(year) + '0' + str(nth_week)
         if week_key not in comment_by_week:
             comment_by_week[week_key] = num_comment
@@ -76,7 +76,11 @@ def get_fitting_parameters(app_id, db_name, plot=False):
 
 if __name__ == '__main__':
     app_ids = ['460351323']
+    host = '127.0.0.1'
+    user = 'jeremy'
+    passwd = 'ilovecherry'
+    db_name = 'Crawler_apple_us'
 
     for app_id in app_ids:
-        fitting_params, weeks = get_fitting_parameters(app_id, "Crawler_apple", plot=True)
+        fitting_params, weeks = get_fitting_parameters(app_id, host, user, passwd, db_name, plot=True)
         print(fitting_params, weeks)

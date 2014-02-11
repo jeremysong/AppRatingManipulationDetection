@@ -1,3 +1,9 @@
+"""
+Update total rater value. For some app data, total raters are missing. This procedure is NOT included in
+feature_generator.py
+"""
+
+
 import csv
 import MySQLdb
 

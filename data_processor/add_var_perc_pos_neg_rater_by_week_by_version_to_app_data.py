@@ -10,17 +10,16 @@ import MySQLdb
 import numpy
 
 
-def generate_feature(has_version = True):
-    app_data_file = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/posNegWeekAppData.csv", 'r')
-    reviewer_data_file = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/posNegReviewerData.csv", 'r')
-    version_var_perc_pos_neg_rater_file = open(
-        "/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/varVersionPercPosNegRaterAppData.csv", 'w')
+def generate_feature(data_path, host, user, passwd, db_name, has_version=True):
+    app_data_file = open(data_path + "posNegWeekAppData.csv", 'r')
+    reviewer_data_file = open(data_path + "posNegReviewerData.csv", 'r')
+    version_var_perc_pos_neg_rater_file = open(data_path + "varVersionPercPosNegRaterAppData.csv", 'w')
 
     app_data_csv = csv.reader(app_data_file, delimiter=',')
     reviewer_data_csv = csv.reader(reviewer_data_file, delimiter=',')
     version_var_perc_pos_neg_rater_csv = csv.writer(version_var_perc_pos_neg_rater_file, delimiter=',')
 
-    db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db="Crawler_apple_us")
+    db = MySQLdb.connect(host=host, user=user, passwd=passwd, db=db_name)
     cur = db.cursor()
     comment_sql = "SELECT app_id, date, reviewer_id, device_version FROM Comment"
     cur.execute(comment_sql)
@@ -84,10 +83,10 @@ def generate_feature(has_version = True):
                     else:
                         comment_perc_rater_dict[app_id_key][version][week_key] = perc_pos_neg_rater_dict
 
-    appDataHeader = next(app_data_csv)
-    appDataHeader.extend(["var_perc_pos_rater_by_week_by_version", "var_perc_neg_rater_by_week_by_version"])
+    app_data_header = next(app_data_csv)
+    app_data_header.extend(["var_perc_pos_rater_by_week_by_version", "var_perc_neg_rater_by_week_by_version"])
 
-    version_var_perc_pos_neg_rater_csv.writerow(appDataHeader)
+    version_var_perc_pos_neg_rater_csv.writerow(app_data_header)
 
     for app_data_row in app_data_csv:
         app_id = app_data_row[0]
@@ -110,7 +109,14 @@ def generate_feature(has_version = True):
     app_data_file.close()
     reviewer_data_file.close()
     version_var_perc_pos_neg_rater_file.close()
+    print('Finish adding variance of percentage of positive and negative rater by week by version.')
 
 
 if __name__ == '__main__':
-    generate_feature(has_version=True)
+    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
+    __host = '127.0.0.1'
+    __user = 'jeremy'
+    __passwd = 'ilovecherry'
+    __db_name = 'Crawler_apple_us'
+
+    generate_feature(__data_path, __host, __user, __passwd, __db_name, has_version=True)
