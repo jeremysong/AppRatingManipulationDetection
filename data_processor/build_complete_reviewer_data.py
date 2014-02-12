@@ -24,7 +24,7 @@ def generate_reviewer_data(data_path, host, user, passwd, db_name):
     for comment_row in cur:
         reviewer_id = comment_row[0]
         app_id = comment_row[1]
-        date = comment_row[2].split(' ')[0]
+        date = str(comment_row[2]).split(' ')[0]
         rating = str(comment_row[3])
         if reviewer_id not in reviewer_dict:
             reviewer_dict[reviewer_id] = {"app_ids": [app_id], "dates": [date], "ratings": [rating]}

@@ -8,7 +8,7 @@ import csv
 from training import poission_dist_fitting as pdf
 
 
-def generate_features(data_path, host, user, passwd, db_name):
+def generate_features(data_path, host, user, passwd, db_name, date_pattern):
     app_data_file = open(data_path + 'varPercPosNegRaterAppData.csv', 'r')
     poisson_app_data_file = open(data_path + 'poissonAppData.csv', 'w')
 
@@ -21,7 +21,7 @@ def generate_features(data_path, host, user, passwd, db_name):
 
     for app_data_row in app_data_csv:
         app_id = app_data_row[0]
-        l_params, num_week = pdf.get_fitting_parameters(app_id, host, user, passwd, db_name)
+        l_params, num_week = pdf.get_fitting_parameters(app_id, host, user, passwd, db_name, date_pattern)
         num_peaks = len(l_params)
         if not l_params:
             first_peak = 0
@@ -44,5 +44,6 @@ if __name__ == '__main__':
     __user = 'jeremy'
     __passwd = 'ilovecherry'
     __db_name = 'Crawler_apple_us'
+    __date_pattern = '%m/%d/%y'
 
-    generate_features(__data_path, __host, __user, __passwd, __db_name)
+    generate_features(__data_path, __host, __user, __passwd, __db_name, __date_pattern)

@@ -10,7 +10,7 @@ import MySQLdb
 import numpy
 
 
-def generate_feature(data_path, host, user, passwd, db_name, has_version=True):
+def generate_feature(data_path, host, user, passwd, db_name, date_pattern, has_version=True):
     app_data_file = open(data_path + "posNegWeekAppData.csv", 'r')
     reviewer_data_file = open(data_path + "posNegReviewerData.csv", 'r')
     version_var_perc_pos_neg_rater_file = open(data_path + "varVersionPercPosNegRaterAppData.csv", 'w')
@@ -38,7 +38,7 @@ def generate_feature(data_path, host, user, passwd, db_name, has_version=True):
     for comment_row in cur.fetchall():
         app_id = comment_row[0]
         reviewer_id = comment_row[2]
-        date = datetime.strptime(comment_row[1].split(' ')[0], '%m/%d/%y').date()
+        date = datetime.strptime(str(comment_row[1]).split(' ')[0], date_pattern).date()
         # Amazon and Windows do not provide version data. To leverage version noises,
         # assume a month is a live cycle of app
         version = comment_row[3] if has_version else str(date.year) + '.' + str(date.month)
@@ -118,5 +118,6 @@ if __name__ == '__main__':
     __user = 'jeremy'
     __passwd = 'ilovecherry'
     __db_name = 'Crawler_apple_us'
+    __date_pattern = '%m/%d/%y'
 
-    generate_feature(__data_path, __host, __user, __passwd, __db_name, has_version=True)
+    generate_feature(__data_path, __host, __user, __passwd, __db_name, __date_pattern, has_version=True)

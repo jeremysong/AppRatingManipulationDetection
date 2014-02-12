@@ -47,7 +47,10 @@ def generate_features(data_path, host, user, passwd, db_name):
 
     for app_data_row in app_data_csv:
         app_id = app_data_row[0]
-        total_rater = len(comment_dict[app_id])
+        try:
+            total_rater = len(comment_dict[app_id])
+        except KeyError:
+            continue
         pos_rater = 0
         neg_rater = 0
         for reviewer_id in comment_dict[app_id]:

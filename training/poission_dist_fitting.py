@@ -21,7 +21,7 @@ def residuals(l, y, x):
     return err
 
 
-def get_fitting_parameters(app_id, host, user, passwd, db_name, plot=False):
+def get_fitting_parameters(app_id, host, user, passwd, db_name, date_pattern, plot=False):
     """
     Find all the parameter lambda in Poisson distribution that fit the num of comment by week.
     Return a set of those parameters and number of total weeks
@@ -34,7 +34,7 @@ def get_fitting_parameters(app_id, host, user, passwd, db_name, plot=False):
     comment_by_week = dict()
 
     for comment_row in cur.fetchall():
-        date = datetime.strptime(comment_row[0].split(' ')[0], '%m/%d/%y').date()
+        date = datetime.strptime(str(comment_row[0]).split(' ')[0], date_pattern).date()
         num_comment = int(comment_row[1])
         iso_calendar = date.isocalendar()
         year = iso_calendar[0]
@@ -76,11 +76,12 @@ def get_fitting_parameters(app_id, host, user, passwd, db_name, plot=False):
 
 if __name__ == '__main__':
     app_ids = ['460351323']
-    host = '127.0.0.1'
-    user = 'jeremy'
-    passwd = 'ilovecherry'
-    db_name = 'Crawler_apple_us'
+    __host = '127.0.0.1'
+    __user = 'jeremy'
+    __passwd = 'ilovecherry'
+    __db_name = 'Crawler_apple_us'
+    __date_pattern = '%m/%d/%y'
 
     for app_id in app_ids:
-        fitting_params, weeks = get_fitting_parameters(app_id, host, user, passwd, db_name, plot=True)
+        fitting_params, weeks = get_fitting_parameters(app_id, __host, __user, __passwd, __db_name, __date_pattern, plot=True)
         print(fitting_params, weeks)

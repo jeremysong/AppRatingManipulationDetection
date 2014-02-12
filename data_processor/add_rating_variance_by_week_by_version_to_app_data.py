@@ -10,7 +10,7 @@ import numpy as np
 __author__ = 'jeremy'
 
 
-def generate_features(data_path, host, user, passwd, db_name, has_version=True):
+def generate_features(data_path, host, user, passwd, db_name, date_pattern, has_version=True):
     app_data_file = open(data_path + "varVersionPercPosNegRaterAppData.csv", 'r')
     var_version_rating_app_data_file = open(data_path + "varVersionRatingAppData.csv", 'w')
 
@@ -27,7 +27,7 @@ def generate_features(data_path, host, user, passwd, db_name, has_version=True):
 
     for comment_row in cur.fetchall():
         app_id = comment_row[0]
-        date = datetime.strptime(comment_row[1].split(' ')[0], '%m/%d/%y').date()
+        date = datetime.strptime(str(comment_row[1]).split(' ')[0], date_pattern).date()
         rating = comment_row[2]
         # Amazon and Windows do not provide version data. To leverage version noises,
         # assume a month is a live cycle of app
@@ -121,5 +121,6 @@ if __name__ == '__main__':
     __user = 'jeremy'
     __passwd = 'ilovecherry'
     __db_name = 'Crawler_apple_us'
+    __date_pattern = '%m/%d/%y'
 
-    generate_features(__data_path, __host, __user, __passwd, __db_name, has_version=True)
+    generate_features(__data_path, __host, __user, __passwd, __db_name, __date_pattern, has_version=True)

@@ -4,8 +4,8 @@ import MySQLdb
 import numpy
 
 
-def generate_features(data_path, host, user, passwd, db_name):
-    app_data_file = open(data_path + "posNegWeekAppData.csv", "r")
+def generate_features(data_path, host, user, passwd, db_name, date_pattern):
+    app_data_file = open(data_path + "varRatingAppData.csv", "r")
     reviewer_data_file = open(data_path + "posNegReviewerData.csv", "r")
     var_perc_pos_neg_rater_file = open(data_path + "varPercPosNegRaterAppData.csv", "w")
 
@@ -30,7 +30,7 @@ def generate_features(data_path, host, user, passwd, db_name):
     for comment_row in cur.fetchall():
         app_id = comment_row[0]
         reviewer_id = comment_row[2]
-        date = datetime.strptime(comment_row[1].split(" ")[0], '%m/%d/%y').date()
+        date = datetime.strptime(str(comment_row[1]).split(" ")[0], date_pattern).date()
         iso_calendar = date.isocalendar()
         year = iso_calendar[0]
         nth_week = iso_calendar[1]
@@ -102,6 +102,7 @@ if __name__ == '__main__':
     __user = 'jeremy'
     __passwd = 'ilovecherry'
     __db_name = 'Crawler_apple_us'
+    __date_pattern = '%m/%d/%y'
 
-    generate_features(__data_path, __host, __user, __passwd, __db_name)
+    generate_features(__data_path, __host, __user, __passwd, __db_name, __date_pattern)
 

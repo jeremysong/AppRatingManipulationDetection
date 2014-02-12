@@ -26,6 +26,7 @@ host = '127.0.0.1'
 user = 'jeremy'
 passwd = 'ilovecherry'
 db_name = 'Crawler_amazon_cn'
+date_pattern = '%Y-%m-%d'
 
 # Do not build training set for Amazon and Windows app store since not training set is available for them.
 build_training_set_bool = False
@@ -41,13 +42,13 @@ add_extr_pos_neg_rater_to_reviewer.generate_features(data_path)
 add_dev_num_to_app_data.generate_features(data_path)
 add_pos_neg_rater_to_app_data.generate_features(data_path, host, user, passwd, db_name)
 add_helpfulness_to_app_data.generate_features(data_path, host, user, passwd, db_name)
-add_rating_variacne_by_week_to_app_data.generate_features(data_path, host, user, passwd, db_name)
-add_var_perc_pos_neg_rater_by_week_to_app_data.generate_features(data_path, host, user, passwd, db_name)
-add_possion_fit_to_app_data.generate_features(data_path, host, user, passwd, db_name)
+add_rating_variacne_by_week_to_app_data.generate_features(data_path, host, user, passwd, db_name, date_pattern)
+add_var_perc_pos_neg_rater_by_week_to_app_data.generate_features(data_path, host, user, passwd, db_name, date_pattern)
+add_possion_fit_to_app_data.generate_features(data_path, host, user, passwd, db_name, date_pattern)
 add_extr_pos_neg_rater_to_app_data.generate_features(data_path, host, user, passwd, db_name)
-add_pos_neg_week_to_app_data.generate_features(data_path, host, user, passwd, db_name)
-add_var_perc_pos_neg_rater_by_week_by_version_to_app_data.generate_feature(data_path, host, user, passwd, db_name)
-add_rating_variance_by_week_by_version_to_app_data.generate_features(data_path, host, user, passwd, db_name)
+add_pos_neg_week_to_app_data.generate_features(data_path, host, user, passwd, db_name, date_pattern)
+add_var_perc_pos_neg_rater_by_week_by_version_to_app_data.generate_feature(data_path, host, user, passwd, db_name, date_pattern, has_version=False)
+add_rating_variance_by_week_by_version_to_app_data.generate_features(data_path, host, user, passwd, db_name, date_pattern, has_version=False)
 
 if build_training_set_bool:
     build_training_set.generate_training_set(data_path)

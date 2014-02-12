@@ -37,7 +37,7 @@ def max_continuous_value(ratings, v):
     return max_length
 
 
-def generate_features(data_path, host, user, passwd, db_name):
+def generate_features(data_path, host, user, passwd, db_name, date_pattern):
     app_data_file = open(data_path + "extrPosNegAppData.csv", 'r')
     pos_neg_week_app_data_file = open(data_path + "posNegWeekAppData.csv", 'w')
 
@@ -54,7 +54,7 @@ def generate_features(data_path, host, user, passwd, db_name):
 
     for comment_row in cur.fetchall():
         app_id = comment_row[0]
-        date = datetime.strptime(comment_row[1].split(" ")[0], '%m/%d/%y').date()
+        date = datetime.strptime(str(comment_row[1]).split(" ")[0], date_pattern).date()
         rating = comment_row[2]
         iso_calendar = date.isocalendar()
         # Use ISO calendar year here. For example, for 2012-01-01, it will return 2011, 52, 7
@@ -106,8 +106,9 @@ if __name__ == '__main__':
     __user = 'jeremy'
     __passwd = 'ilovecherry'
     __db_name = 'Crawler_apple_us'
+    __date_pattern = '%m/%d/%y'
 
-    generate_features(__data_path, __host, __user, __passwd, __db_name)
+    generate_features(__data_path, __host, __user, __passwd, __db_name, __date_pattern)
 
 
 
