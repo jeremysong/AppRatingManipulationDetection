@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 import csv
 import numpy as np
 
-appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/trainingData.csv", 'r')
+appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/trainingData.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)

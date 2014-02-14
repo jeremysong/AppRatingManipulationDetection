@@ -53,7 +53,7 @@ cv = cross_validation.ShuffleSplit(len(features_data), n_iter=10, test_size=0.1,
 num_estimator_range = range(60, 100, 1)
 
 for num_estimators in num_estimator_range:
-    clf = RandomForestClassifier(n_estimators=63, max_features='log2')
+    clf = RandomForestClassifier(n_estimators=num_estimators, max_features='log2')
 
     score_collection = list()
 
@@ -65,16 +65,16 @@ for num_estimators in num_estimator_range:
 
         clf.fit(training_data, training_target)
         prediction = clf.predict(test_data)
-        scores = precision_recall_fscore_support(test_target, prediction)
+        scores = precision_recall_fscore_support(test_target, prediction, pos_label=1)
         score_collection.append(scores)
 
-    precision_score = np.average([scores[0] for scores in score_collection])
-    recall_score = np.average([scores[1] for scores in score_collection])
-    f1_score = np.average([scores[2] for scores in score_collection])
+    precision_score = np.average([scores[0][1] for scores in score_collection])
+    recall_score = np.average([scores[1][1] for scores in score_collection])
+    f1_score = np.average([scores[2][1] for scores in score_collection])
     print('Average precision: {0:f}. Average recall: {1:f}. Average f1: {2:f}'.format(
-        np.average([scores[0] for scores in score_collection]),
-        np.average([scores[1] for scores in score_collection]),
-        np.average([scores[2] for scores in score_collection])))
+        np.average([scores[0][1] for scores in score_collection]),
+        np.average([scores[1][1] for scores in score_collection]),
+        np.average([scores[2][1] for scores in score_collection])))
 
     appDataFile.seek(0)
     next(appDataCsv)

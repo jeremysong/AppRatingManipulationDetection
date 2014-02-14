@@ -9,7 +9,7 @@ import csv
 
 def generate_training_set(data_path):
     app_feature_file = open(data_path + 'varVersionRatingAppData.csv', 'r')
-    abused_app_file = open(data_path + 'us_abused_apps.txt', 'r')
+    abused_app_file = open(data_path + 'abused_apps.txt', 'r')
     sample_app_data_file = open(data_path + 'sample_total.csv', 'r')
     training_data_file = open(data_path + 'trainingData.csv', 'w')
 
@@ -24,7 +24,10 @@ def generate_training_set(data_path):
         target_data[abused_app_row[1].strip()] = 1
 
     for sample_app_row in sample_app_data_csv:
-        target_data[sample_app_row[0]] = int(sample_app_row[1])
+        try:
+            target_data[sample_app_row[0]] = int(sample_app_row[1])
+        except IndexError:
+            print(sample_app_data_csv.line_num)
 
     print(len(target_data))
 
@@ -47,5 +50,5 @@ def generate_training_set(data_path):
 
 
 if __name__ == '__main__':
-    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
+    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/'
     generate_training_set(__data_path)

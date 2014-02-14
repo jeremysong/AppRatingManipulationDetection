@@ -54,4 +54,4 @@ graph.write_png("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data
 
 appDataFile.close()
 
-print(features.index('num_dev'))
+print(features.index('perc_neg_rater'))

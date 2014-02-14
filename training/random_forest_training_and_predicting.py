@@ -7,7 +7,7 @@ __author__ = 'jeremy'
 from sklearn.ensemble import RandomForestClassifier
 import csv
 
-iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
+iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/'
 
 trainingDataFile = open(iTunesDataFolder + "trainingData.csv", 'r')
 appDataFile = open(iTunesDataFolder + "varVersionRatingAppData.csv", 'r')
