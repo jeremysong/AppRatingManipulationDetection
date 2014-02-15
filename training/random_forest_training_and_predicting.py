@@ -7,7 +7,7 @@ __author__ = 'jeremy'
 from sklearn.ensemble import RandomForestClassifier
 import csv
 
-iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/'
+iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
 
 trainingDataFile = open(iTunesDataFolder + "trainingData.csv", 'r')
 appDataFile = open(iTunesDataFolder + "varVersionRatingAppData.csv", 'r')
@@ -65,4 +65,5 @@ prediction_abused = [prediction_app[index] for index, target in enumerate(predic
 
 print(prediction_abused)
 print(len(prediction_abused))
+print('Total app: {0}'.format(len(prediction_data)))
 

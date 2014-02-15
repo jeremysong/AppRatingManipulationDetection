@@ -8,7 +8,7 @@ import csv
 
 
 def generate_training_set(data_path):
-    app_feature_file = open(data_path + 'varVersionRatingAppData.csv', 'r')
+    app_feature_file = open(data_path + 'coefPosNegRatingsAppData.csv', 'r')
     abused_app_file = open(data_path + 'abused_apps.txt', 'r')
     sample_app_data_file = open(data_path + 'sample_total.csv', 'r')
     training_data_file = open(data_path + 'trainingData.csv', 'w')
