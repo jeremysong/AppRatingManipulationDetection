@@ -19,8 +19,8 @@ features = ['num_pos_rater', 'perc_pos_rater', 'total_rater', 'var_num_rating_by
             "var_num_rating_by_week_by_version", "var_avg_rating_by_week_by_version",
             "var_perc_1_star_rating_by_week_by_version", "var_perc_2_star_rating_by_week_by_version",
             "var_perc_3_star_rating_by_week_by_version", "var_perc_4_star_rating_by_week_by_version",
-            "var_perc_5_star_rating_by_week_by_version", "coef_pos_neg_rating_by_week",
-            "coef_1_5_num_rating", "coef_2_5_rating_by_week", "coef_3_5_rating_by_week", "coef_avg_rating_num_by_week"]
+            "var_perc_5_star_rating_by_week_by_version", "coef_pos_neg_rating_by_week", "coef_1_5_rating_by_week",
+            "coef_2_5_rating_by_week", "coef_3_5_rating_by_week", "coef_avg_rating_num_by_week"]
 
 features_data = list()
 target_data = list()

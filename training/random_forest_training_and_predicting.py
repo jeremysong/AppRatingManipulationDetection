@@ -10,7 +10,7 @@ import csv
 iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
 
 trainingDataFile = open(iTunesDataFolder + "trainingData.csv", 'r')
-appDataFile = open(iTunesDataFolder + "varVersionRatingAppData.csv", 'r')
+appDataFile = open(iTunesDataFolder + "coefPosNegRatingsAppData.csv", 'r')
 predictionDataFile = open(iTunesDataFolder + "sample_predict_apps.csv", 'r')
 
 trainingDataCsv = csv.reader(trainingDataFile, delimiter=',')
@@ -33,7 +33,8 @@ features = ['num_pos_rater', 'perc_pos_rater', 'total_rater', 'var_num_rating_by
             "var_num_rating_by_week_by_version", "var_avg_rating_by_week_by_version",
             "var_perc_1_star_rating_by_week_by_version", "var_perc_2_star_rating_by_week_by_version",
             "var_perc_3_star_rating_by_week_by_version", "var_perc_4_star_rating_by_week_by_version",
-            "var_perc_5_star_rating_by_week_by_version"]
+            "var_perc_5_star_rating_by_week_by_version", "coef_pos_neg_rating_by_week",
+            "coef_1_5_num_rating", "coef_2_5_rating_by_week", "coef_3_5_rating_by_week", "coef_avg_rating_num_by_week"]
 
 num_estimator = 80
 
@@ -52,7 +53,7 @@ for training_data_row in trainingDataCsv:
     training_data.append([float(training_data_row[index]) for index in feature_index])
     target_data.append(int(training_data_row[-1]))
 
-clf = RandomForestClassifier(n_estimators=num_estimator, max_features='auto')
+clf = RandomForestClassifier(n_estimators=num_estimator, oob_score=True, min_samples_leaf=4)
 clf.fit(training_data, target_data)
 
 ### Prediction phase

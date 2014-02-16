@@ -65,7 +65,7 @@ def plot(app_id, app_version=None, db_name='Crawler_apple_us', version=True):
 
 
 if __name__ == '__main__':
-    __app_id = '478735521'
+    __app_id = '565200595'
     __app_version = '2.0'
     __db_name = 'Crawler_apple_us'
     plot(__app_id, db_name=__db_name, version=False)

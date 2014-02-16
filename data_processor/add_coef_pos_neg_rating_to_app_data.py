@@ -43,7 +43,7 @@ def generate_features(data_path, host, user, passwd, db_name, date_pattern):
     # App data header
     app_data_file_header = next(app_data_file_csv)
     app_data_file_header.append("coef_pos_neg_rating_by_week")
-    app_data_file_header.append("coef_1_5_num_rating")
+    app_data_file_header.append("coef_1_5_rating_by_week")
     app_data_file_header.append("coef_2_5_rating_by_week")
     app_data_file_header.append("coef_3_5_rating_by_week")
     app_data_file_header.append("coef_avg_rating_num_by_week")
@@ -100,11 +100,11 @@ def generate_features(data_path, host, user, passwd, db_name, date_pattern):
 
 
 if __name__ == '__main__':
-    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/'
+    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
     __host = '127.0.0.1'
     __user = 'jeremy'
     __passwd = 'ilovecherry'
-    __db_name = 'Crawler_apple'
+    __db_name = 'Crawler_apple_us'
     __date_pattern = '%m/%d/%y'
 
     generate_features(__data_path, __host, __user, __passwd, __db_name, __date_pattern)

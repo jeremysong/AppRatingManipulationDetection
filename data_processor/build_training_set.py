@@ -1,5 +1,14 @@
 """
 Builds training set from Poisson App Data file, abused data and sample total.
+
+Clean coefPosNegRatingAppData.csv file first as this file may contains lots of 'nan' data while coefficients are
+generated.
+I tried to use
+    if np.isnan(coef)
+to filter out those nan data, but it does not work. What I do is using substitution in vim.
+
+To clean 'nan' for 'ceef_avg_rating_num_by_week' feature, substitute 'nan's with 0.0.
+To clean other 'nan's, substitute them with 1.0.
 """
 
 __author__ = 'jeremy'
@@ -28,6 +37,8 @@ def generate_training_set(data_path):
             target_data[sample_app_row[0]] = int(sample_app_row[1])
         except IndexError:
             print(sample_app_data_csv.line_num)
+        if sample_app_data_csv.line_num == 700:
+            break
 
     print(len(target_data))
 

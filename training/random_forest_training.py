@@ -13,7 +13,7 @@ import random
 from sklearn.metrics import precision_recall_fscore_support
 
 
-appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/trainingData.csv", 'r')
+appDataFile = open("/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/trainingData.csv", 'r')
 appDataCsv = csv.reader(appDataFile, delimiter=',')
 
 appDataHeader = next(appDataCsv)
@@ -31,7 +31,8 @@ features = ['num_pos_rater', 'perc_pos_rater', 'total_rater', 'var_num_rating_by
             "var_num_rating_by_week_by_version", "var_avg_rating_by_week_by_version",
             "var_perc_1_star_rating_by_week_by_version", "var_perc_2_star_rating_by_week_by_version",
             "var_perc_3_star_rating_by_week_by_version", "var_perc_4_star_rating_by_week_by_version",
-            "var_perc_5_star_rating_by_week_by_version", "coef_pos_neg_rating_by_week", "coef_3_5_rating_by_week"]
+            "var_perc_5_star_rating_by_week_by_version", "coef_pos_neg_rating_by_week", "coef_1_5_rating_by_week",
+            "coef_2_5_rating_by_week", "coef_3_5_rating_by_week", "coef_avg_rating_num_by_week"]
 
 precision_score_collection = list()
 recall_score_collection = list()
@@ -53,7 +54,7 @@ cv = cross_validation.ShuffleSplit(len(features_data), n_iter=10, test_size=0.1,
 num_estimator_range = range(60, 100, 1)
 
 for num_estimators in num_estimator_range:
-    clf = RandomForestClassifier(n_estimators=num_estimators, max_features='log2')
+    clf = RandomForestClassifier(n_estimators=num_estimators, oob_score=True, min_samples_leaf=4)
 
     score_collection = list()
 
