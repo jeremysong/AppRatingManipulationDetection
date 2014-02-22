@@ -53,6 +53,8 @@ def generate_features(data_path, host, user, passwd, db_name):
     app_data_file.close()
     helpfulness_app_data_file.close()
 
+    print("Finish adding helpfulness features to app data.")
+
 
 if __name__ == '__main__':
     __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'

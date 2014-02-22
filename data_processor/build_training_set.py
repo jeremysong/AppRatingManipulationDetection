@@ -37,7 +37,7 @@ def generate_training_set(data_path):
             target_data[sample_app_row[0]] = int(sample_app_row[1])
         except IndexError:
             print(sample_app_data_csv.line_num)
-        if sample_app_data_csv.line_num == 700:
+        if sample_app_data_csv.line_num == 1000:
             break
 
     print(len(target_data))
