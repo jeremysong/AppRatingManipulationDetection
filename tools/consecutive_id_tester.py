@@ -8,12 +8,12 @@ import numpy as np
 __author__ = 'jeremy'
 
 
-def consecutive_id(host, user, passwd, db_name, app_list, isOrderedByTime=True):
+def consecutive_id(host, user, passwd, db_name, app_list, verbose=True):
     db = MySQLdb.connect(host=host, user=user, passwd=passwd, db=db_name)
     cur = db.cursor()
-    commentDataSql = "SELECT reviewer_id FROM Comment WHERE app_id="
+    raw_comment_data_sql = "SELECT reviewer_id FROM (SELECT reviewer_id, date FROM Comment WHERE app_id='{}' ORDER BY reviewer_id) as TEMP ORDER BY date;"
 
-    def num_consecutive_id(__reviewer_id_list, __consecutive_range=2000):
+    def num_consecutive_id(__reviewer_id_list, __consecutive_range=1000):
         count = 0
         if len(__reviewer_id_list) <= 1:
             return count
@@ -26,14 +26,11 @@ def consecutive_id(host, user, passwd, db_name, app_list, isOrderedByTime=True):
             first_id = second_id
         return count
 
-
     coverage_list = list()
     num_consecutive_id_list = list()
 
     for abused_app_id in app_list:
-        comment_data_sql = commentDataSql + "'" + abused_app_id + "'"
-        if isOrderedByTime:
-            comment_data_sql += "ORDER BY date"
+        comment_data_sql = raw_comment_data_sql.replace('{}', abused_app_id)
         cur.execute(comment_data_sql)
         reviewer_ids = cur.fetchall()
         try:
@@ -48,9 +45,10 @@ def consecutive_id(host, user, passwd, db_name, app_list, isOrderedByTime=True):
         num_consecutive_id_list.append(num_consecutive_ids)
         coverage_list.append(coverage)
 
-        print('App id: {0}; num_consecutive_id: {1}; coverage: {2}'.format(abused_app_id, num_consecutive_ids,
-                                                                           num_consecutive_ids / float(
-                                                                               len(reviewer_id_list))))
+        if verbose and coverage >= 0.015:
+            print('App id: {0}; num_consecutive_id: {1}; coverage: {2}'.format(abused_app_id, num_consecutive_ids,
+                                                                               num_consecutive_ids / float(
+                                                                                   len(reviewer_id_list))))
 
     coverage_90 = [coverage for coverage in coverage_list if coverage < 1.0]
     coverage_80 = [coverage for coverage in coverage_list if coverage < 0.9]
@@ -75,7 +73,7 @@ def consecutive_id(host, user, passwd, db_name, app_list, isOrderedByTime=True):
             len(coverage_10) / total_apps, len(coverage_20) / total_apps,
             len(coverage_30) / total_apps, len(coverage_40) / total_apps, len(coverage_50) / total_apps,
             len(coverage_60) / total_apps, len(coverage_70) / total_apps,
-            len(coverage_80) / total_apps, len(coverage_90) / total_apps]
+            len(coverage_80) / total_apps, len(coverage_90) / total_apps], coverage_list
     # return coverage_list, num_consecutive_id_list
 
 
@@ -90,16 +88,15 @@ def build_freq_dict(num_list):
 
 
 if __name__ == '__main__':
-    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
+    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_uk_data/'
     __host = '127.0.0.1'
     __user = 'jeremy'
     __passwd = 'ilovecherry'
-    __db_name = 'Crawler_apple'
+    __db_name = 'Crawler_apple_uk'
 
-    suspicious_app_file = open(
-        '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/classification_abused_app.txt', 'r')
-    benign_app_file = open('/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/sample_total.csv', 'r')
-    abused_app_file = open('/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/abused_apps.txt', 'r')
+    suspicious_app_file = open(__data_path + 'classification_abused_app.txt', 'r')
+    benign_app_file = open(__data_path + 'sample_total.csv', 'r')
+    abused_app_file = open(__data_path + 'abused_apps.txt', 'r')
 
     suspicious_app_list = ast.literal_eval(next(suspicious_app_file))
     benign_app_list = [line.split(',')[0] for line in benign_app_file]
@@ -109,12 +106,12 @@ if __name__ == '__main__':
     benign_density = list()
     abused_density = list()
 
-    def consecutive_id_configured(__app_list):
-        return consecutive_id(__host, __user, __passwd, __db_name, __app_list)
+    def consecutive_id_configured(__app_list, __verbose):
+        return consecutive_id(__host, __user, __passwd, __db_name, __app_list, verbose=__verbose)
 
-    # suspicious_coverage_list, suspicious_num_consecutive_list = consecutive_id_configured(suspicious_app_list)
-    # benign_coverage_list, benign_num_consecutive_list = consecutive_id_configured(benign_app_list)
-    # abused_coverage_list, abused_num_consecutive_list = consecutive_id_configured(abused_app_list)
+    # suspicious_coverage_list = consecutive_id_configured(suspicious_app_list, False)[1]
+    # benign_coverage_list = consecutive_id_configured(benign_app_list, True)[1]
+    # abused_coverage_list = consecutive_id_configured(abused_app_list, False)[1]
 
     # suspicious_x, suspicious_y = build_freq_dict(suspicious_coverage_list)
     # benign_x, benign_y = build_freq_dict(benign_coverage_list)
@@ -127,17 +124,18 @@ if __name__ == '__main__':
 
     x_axis = [0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
     fig = plt.subplot()
-    fig.plot(x_axis, consecutive_id_configured(suspicious_app_list),
+    fig.plot(x_axis, consecutive_id_configured(suspicious_app_list, True)[0],
              label='Suspicious')
-    fig.plot(x_axis, consecutive_id_configured(abused_app_list),
+    fig.plot(x_axis, consecutive_id_configured(abused_app_list, True)[0],
              label='Abused')
-    fig.plot(x_axis, consecutive_id_configured(benign_app_list),
+    fig.plot(x_axis, consecutive_id_configured(benign_app_list, True)[0],
              label='Benign')
     fig.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
     plt.xticks(x_axis,
-               ['<=1%', '', '', '', '<=5%', '<=10%', '<=20%', '<=30%', '<=40%', '<=50%', '<=60%', '<=70%', '<=80%', '<=90%', '<=100%'])
-    plt.ylim([0, 1.1])
-    plt.yticks(np.arange(0, 1.1, 0.1))
+               ['<1%', '', '', '', '<5%', '<10%', '<20%', '<30%', '<40%', '<50%', '<60%', '<70%', '<80%',
+                '<90%', '<100%'])
+    plt.ylim([0.0, 1.1])
+    plt.yticks(np.arange(0.0, 1.1, 0.1))
     plt.xlabel('Coverage of Consecutive IDs')
     plt.ylabel('Percentage of Apps')
     plt.grid()

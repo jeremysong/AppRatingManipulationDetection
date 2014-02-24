@@ -69,6 +69,7 @@ def get_fitting_parameters(app_id, host, user, passwd, db_name, date_pattern, pl
             fig.plot(x_range, poisson_y, color='r', label='Poisson Distribution(' + str(l) + ')')
         fig.plot(x_range, perc_comment, color='b', label='Percentage of Number of Comments')
         fig.legend()
+        plt.tight_layout()
         plt.show()
 
     return l_set, num_week
@@ -79,7 +80,7 @@ if __name__ == '__main__':
     __host = '127.0.0.1'
     __user = 'jeremy'
     __passwd = 'ilovecherry'
-    __db_name = 'Crawler_apple_us'
+    __db_name = 'Crawler_apple'
     __date_pattern = '%m/%d/%y'
 
     for app_id in app_ids:

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 __author__ = 'jeremy'
 
-score_file = open('/Users/jeremy/Desktop/new/itunes_uk_3.txt', 'r')
+score_file = open('/Users/jeremy/Desktop/itunes_cn_1', 'r')
 
 precision_list = list()
 recall_list = list()

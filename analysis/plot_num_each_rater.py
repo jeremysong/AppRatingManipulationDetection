@@ -61,11 +61,15 @@ def plot(app_id, app_version=None, db_name='Crawler_apple', version=True):
     bar4 = ax.bar(numpy.arange(1, len(comment_dict) + 1) + 0.15, four_star_ratings, color='grey', width=0.15)
     bar5 = ax.bar(numpy.arange(1, len(comment_dict) + 1) + 0.3, five_star_ratings, color='brown', width=0.15)
     ax.legend([bar1, bar2, bar3, bar4, bar5], ['1 star', '2 star', '3 star', '4 star', '5 star'])
+              # bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    plt.xlim([1, len(comment_dict)])
+    plt.xticks(numpy.arange(1, len(comment_dict)+1, 1))
+    plt.tight_layout()
     plt.show()
 
 
 if __name__ == '__main__':
-    __app_id = '483911226'
-    __app_version = '2.0'
+    __app_id = '399363156'
+    __app_version = '2.1'
     __db_name = 'Crawler_apple'
-    plot(__app_id, db_name=__db_name, version=False)
+    plot(__app_id, db_name=__db_name, app_version=__app_version, version=True)

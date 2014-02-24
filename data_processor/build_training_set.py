@@ -61,5 +61,5 @@ def generate_training_set(data_path):
 
 
 if __name__ == '__main__':
-    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_cn_data/'
+    __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_uk_data/'
     generate_training_set(__data_path)
