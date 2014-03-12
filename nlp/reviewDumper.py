@@ -1,13 +1,14 @@
 import ast
+import csv
 import MySQLdb
 
 __author__ = 'jeremy'
 
 
-comment_sql_raw = "SELECT comment, comment_title FROM Comment WHERE app_id='{}'"
+comment_sql_raw = "SELECT comment, comment_title, rating FROM Comment WHERE app_id='{}'"
 
 
-def fetch_comment(host, user, passwd, db_name, app_id_list, output_file):
+def fetch_comment(host, user, passwd, db_name, app_id_list, output_csv):
     db = MySQLdb.connect(host=host, user=user, passwd=passwd, db=db_name)
     cur = db.cursor()
 
@@ -18,8 +19,9 @@ def fetch_comment(host, user, passwd, db_name, app_id_list, output_file):
         for comment_row in cur.fetchall():
             comment = comment_row[0]
             comment_title = comment_row[1]
-            raw_comment = comment + ' ' + comment_title + '\n'
-            output_file.write(raw_comment)
+            rating = comment_row[2]
+            raw_comment = comment + ' ' + comment_title
+            output_csv.writerow([raw_comment, rating])
 
 if __name__ == '__main__':
     __data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
@@ -33,7 +35,9 @@ if __name__ == '__main__':
     suspicious_app_file = open(__data_path + 'classification_abused_app.txt', 'r')
 
     abused_app_comment_file = open(__data_path + 'abused_app_comment.txt', 'w')
+    abused_app_comment_csv = csv.writer(abused_app_comment_file, delimiter=',')
     benign_app_comment_file = open(__data_path + 'benign_app_comment.txt', 'w')
+    benign_app_comment_csv = csv.writer(benign_app_comment_file, delimiter=',')
 
     next(app_data)
 
@@ -53,8 +57,8 @@ if __name__ == '__main__':
     abused_app_list.extend(ast.literal_eval(next(suspicious_app_file)))
     benign_app_list = list(set(total_app_set) - set(abused_app_list))
 
-    fetch_comment(host=__host, user=__user, passwd=__passwd, db_name=__db_name, app_id_list=abused_app_list, output_file=abused_app_comment_file)
-    fetch_comment(host=__host, user=__user, passwd=__passwd, db_name=__db_name, app_id_list=benign_app_list, output_file=benign_app_comment_file)
+    fetch_comment(host=__host, user=__user, passwd=__passwd, db_name=__db_name, app_id_list=abused_app_list, output_csv=abused_app_comment_csv)
+    fetch_comment(host=__host, user=__user, passwd=__passwd, db_name=__db_name, app_id_list=benign_app_list, output_csv=benign_app_comment_csv)
 
     abused_app_file.close()
     app_data.close()

@@ -1,6 +1,13 @@
+"""
+This program only works for english sentences.
+
+I actually use Java Lucene to handle tokenize problem as it could tokenize complex sentences(such as English + Chinese)
+automatically. Lucene also could filter out punctuations in different languages.
+"""
+
 import ast
 import MySQLdb
-from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize import word_tokenize
 import matplotlib.pyplot as plt
 import numpy
 
@@ -51,10 +58,8 @@ def tokenization(host, user, passwd, db_name, data_path):
         for comment_row in cur.fetchall():
             abused_app_comment_list.append(comment_row[0] + ' ' + comment_row[1])
 
-    tokenizer = RegexpTokenizer(r'w+')
-
-    benign_app_comment_num_token = [len(tokenizer.tokenize(comment)) for comment in benign_app_comment_list]
-    abused_app_comment_num_token = [len(tokenizer.tokenize(comment)) for comment in abused_app_comment_list]
+    benign_app_comment_num_token = [len(word_tokenize(comment)) for comment in benign_app_comment_list]
+    abused_app_comment_num_token = [len(word_tokenize(comment)) for comment in abused_app_comment_list]
 
     return numpy.average(benign_app_comment_num_token), numpy.average(abused_app_comment_num_token)
 
@@ -70,19 +75,19 @@ if __name__ == '__main__':
     # uk_benign, uk_abused = tokenization(host=__host, user=__user, passwd=__passwd, db_name='Crawler_apple_uk',
     #                                     data_path=__data_path + 'itunes_uk_data/')
 
+    ###################################################
+    ## DO NOT DELETE THIS, THIS IS IMPORTANT RESULTS ##
+    ###################################################
     us_benign, us_abused = (23.773304, 13.012153)
     uk_benign, uk_abused = (26.974686, 15.896525)
     cn_benign, cn_abused = (12.3986635, 12.651336)
 
-    print(us_benign, us_abused)
-    print(uk_benign, uk_abused)
-
     fig = plt.subplot()
     fig.set_ylabel('Average Number of Tokens')
-    us_bar = fig.bar(numpy.arange(1, 3, 1) - 0.2, [us_abused, uk_abused], color='r', width=0.2)
-    uk_bar = fig.bar(numpy.arange(1, 3, 1), [us_benign, uk_benign], color='b', width=0.2)
-    fig.legend([us_bar, uk_bar], ['Abused App', 'Benign App'], loc=2)
-    plt.xlim(0, 3)
-    plt.xticks([1, 2], ['US', 'UK'])
+    abused = fig.bar(numpy.arange(1, 4, 1) - 0.2, [us_abused, uk_abused, cn_abused], color='r', width=0.2)
+    benign = fig.bar(numpy.arange(1, 4, 1), [us_benign, uk_benign, cn_benign], color='b', width=0.2)
+    fig.legend([abused, benign], ['Abused App', 'Benign App'], loc=2)
+    plt.xlim(0, 4)
+    plt.xticks([1, 2, 3], ['US', 'UK', 'China'])
     plt.grid()
     plt.show()
