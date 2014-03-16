@@ -4,6 +4,7 @@ Add correlation coefficient between number of positive ratings(4,5) and negative
 import csv
 from datetime import datetime
 import MySQLdb
+import math
 import numpy as np
 
 __author__ = 'jeremy'
@@ -87,11 +88,32 @@ def generate_features(data_path, host, user, passwd, db_name, date_pattern):
         coef_2_5_num_rating = np.corrcoef(np.vstack((num_2_rating_by_week, num_5_rating_by_week)))[0][1]
         coef_3_5_num_rating = np.corrcoef(np.vstack((num_3_rating_by_week, num_5_rating_by_week)))[0][1]
         coef_avg_rating_num = np.corrcoef(np.vstack((num_rating_by_week, avg_rating_by_week)))[0][1]
-        app_data_row.append(coef_pos_neg_num_rating)
-        app_data_row.append(coef_1_5_num_rating)
-        app_data_row.append(coef_2_5_num_rating)
-        app_data_row.append(coef_3_5_num_rating)
-        app_data_row.append(coef_avg_rating_num)
+
+        # The following code deserves a concise way to rewrite them.
+        if math.isnan(coef_pos_neg_num_rating):
+            app_data_row.append(1)
+        else:
+            app_data_row.append(coef_pos_neg_num_rating)
+
+        if math.isnan(coef_1_5_num_rating):
+            app_data_row.append(1)
+        else:
+            app_data_row.append(coef_1_5_num_rating)
+
+        if math.isnan(coef_2_5_num_rating):
+            app_data_row.append(1)
+        else:
+            app_data_row.append(coef_2_5_num_rating)
+
+        if math.isnan(coef_3_5_num_rating):
+            app_data_row.append(1)
+        else:
+            app_data_row.append(coef_3_5_num_rating)
+
+        if math.isnan(coef_avg_rating_num):
+            app_data_row.append(0)
+        else:
+            app_data_row.append(coef_avg_rating_num)
 
         coef_pos_neg_rating_csv.writerow(app_data_row)
 

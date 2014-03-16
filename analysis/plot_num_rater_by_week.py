@@ -3,11 +3,12 @@ from datetime import datetime
 import MySQLdb
 import numpy
 import matplotlib.pyplot as plt
+from data_processor.datePatterns import DatePatterns
 
 __author__ = 'jeremy'
 
 
-def plot(app_id, app_version=None, db_name='Crawler_apple', version=True):
+def plot(app_id, app_version=None, db_name='Crawler_apple', date_format=DatePatterns.itunes_date_pattern, version=True):
     db = MySQLdb.connect(host="127.0.0.1", user="jeremy", passwd="ilovecherry", db=db_name)
     cur = db.cursor()
     comment_sql = "SELECT rating, date FROM Comment WHERE app_id=" + "'" + app_id + "'"
@@ -19,7 +20,7 @@ def plot(app_id, app_version=None, db_name='Crawler_apple', version=True):
     comment_dict = defaultdict(int)
 
     for comment_row in cur.fetchall():
-        date = datetime.strptime(comment_row[1].split(' ')[0], '%m/%d/%y').date()
+        date = datetime.strptime(str(comment_row[1]).split(' ')[0], date_format).date()
         isoCalendar = date.isocalendar()
         year = isoCalendar[0]
         nth_week = isoCalendar[1]
@@ -48,7 +49,7 @@ def plot(app_id, app_version=None, db_name='Crawler_apple', version=True):
 
 
 if __name__ == '__main__':
-    __app_id = '403838598'
+    __app_id = 'B006PHD0RW'
     __app_version = '2.0'
-    __db_name = 'Crawler_apple_us'
-    plot(__app_id, db_name=__db_name, version=False)
+    __db_name = 'Crawler_amazon_us'
+    plot(__app_id, db_name=__db_name, date_format=DatePatterns.amazon_date_pattern , version=False)

@@ -5,7 +5,7 @@ Picks random apps from non-labeled app set.
 import csv
 import random
 
-iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_uk_data/'
+iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/amazon_us_data/'
 
 appDataFile = open(iTunesDataFolder + "coefPosNegRatingsAppData.csv", "r")
 abusedDataFile = open(iTunesDataFolder + "trainingData.csv", "r")

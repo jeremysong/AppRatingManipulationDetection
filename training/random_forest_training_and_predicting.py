@@ -7,11 +7,12 @@ __author__ = 'jeremy'
 from sklearn.ensemble import RandomForestClassifier
 import csv
 
-iTunesDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
+trainingDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_us_data/'
+classificationDataFolder = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/amazon_us_data/'
 
-trainingDataFile = open(iTunesDataFolder + "trainingData.csv", 'r')
-appDataFile = open(iTunesDataFolder + "coefPosNegRatingsAppData.csv", 'r')
-predictionDataFile = open(iTunesDataFolder + "sample_predict_apps.csv", 'r')
+trainingDataFile = open(trainingDataFolder + "trainingData.csv", 'r')
+appDataFile = open(classificationDataFolder + "coefPosNegRatingsAppData.csv", 'r')
+predictionDataFile = open(classificationDataFolder + "sample_predict_apps.csv", 'r')
 
 trainingDataCsv = csv.reader(trainingDataFile, delimiter=',')
 appDataCsv = csv.reader(appDataFile, delimiter=',')

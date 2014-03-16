@@ -24,26 +24,18 @@ import add_pos_neg_week_to_app_data
 import add_var_perc_pos_neg_rater_by_week_by_version_to_app_data
 import add_rating_variance_by_week_by_version_to_app_data
 import add_coef_pos_neg_rating_to_app_data
-from enum import Enum
+from datePatterns import DatePatterns
 
 
-class DataPatterns(Enum):
-    """
-    Enum type of data patterns including iTunes, amazon and windows app stores.
-    """
-    itunes_date_pattern = '%m/%d/%y'
-    amazon_date_pattern = '%Y-%m-%d'
-
-
-data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/itunes_uk_data/'
+data_path = '/Users/jeremy/GoogleDrive/PSU/thesis/itunes_data/amazon_us_data/'
 host = '127.0.0.1'
 user = 'jeremy'
 passwd = 'ilovecherry'
-db_name = 'Crawler_apple_uk'
+db_name = 'Crawler_amazon_us'
 notification_switch = False
+has_version = False  # Fetch data from database and write to files
 
 if False:
-    # Fetch data from database and write to files
     build_app_data_from_database.generate_app_data(data_path, host, user, passwd, db_name)
     build_complete_reviewer_data.generate_reviewer_data(data_path, host, user, passwd, db_name)
 
@@ -56,23 +48,23 @@ if False:
     add_helpfulness_to_app_data.generate_features(data_path, host, user, passwd, db_name)
 
     add_rating_variacne_by_week_to_app_data.generate_features(data_path, host, user, passwd, db_name,
-                                                              DataPatterns.itunes_date_pattern)
+                                                              DatePatterns.amazon_date_pattern)
     add_var_perc_pos_neg_rater_by_week_to_app_data.generate_features(data_path, host, user, passwd, db_name,
-                                                                     DataPatterns.itunes_date_pattern)
+                                                                     DatePatterns.amazon_date_pattern)
     add_possion_fit_to_app_data.generate_features(data_path, host, user, passwd, db_name,
-                                                  DataPatterns.itunes_date_pattern)
+                                                  DatePatterns.amazon_date_pattern)
     add_extr_pos_neg_rater_to_app_data.generate_features(data_path, host, user, passwd, db_name)
     add_pos_neg_week_to_app_data.generate_features(data_path, host, user, passwd, db_name,
-                                                   DataPatterns.itunes_date_pattern)
+                                                   DatePatterns.amazon_date_pattern)
     add_var_perc_pos_neg_rater_by_week_by_version_to_app_data.generate_feature(data_path, host, user, passwd, db_name,
-                                                                               DataPatterns.itunes_date_pattern,
-                                                                               has_version=True)
+                                                                               DatePatterns.amazon_date_pattern,
+                                                                               has_version=has_version)
     add_rating_variance_by_week_by_version_to_app_data.generate_features(data_path, host, user, passwd, db_name,
-                                                                         DataPatterns.itunes_date_pattern,
-                                                                         has_version=True)
+                                                                         DatePatterns.amazon_date_pattern,
+                                                                         has_version=has_version)
 
 add_coef_pos_neg_rating_to_app_data.generate_features(data_path, host, user, passwd, db_name,
-                                                      DataPatterns.itunes_date_pattern)
+                                                      DatePatterns.amazon_date_pattern)
 
 if notification_switch:
     from_addr = 'jeremy.song@me.com'
