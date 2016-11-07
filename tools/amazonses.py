@@ -8,8 +8,8 @@ import boto.ses
 
 
 def send_email(from_addr, to_addrs, subject, msg):
-    conn = boto.ses.connect_to_region('us-east-1', aws_access_key_id='AKIAJ7ZWI7BCGBXK2O5Q',
-                                      aws_secret_access_key='O+l/CLOMxTiBtsERFQtB0Mq+RMxYkGu6bu6I5rH9')
+    conn = boto.ses.connect_to_region('us-east-1', aws_access_key_id='YOUR_AWS_ACCESS_KEY_ID',
+                                      aws_secret_access_key='YOUR_AWS_SECRETE_ACCESS_KEY')
     conn.send_email(from_addr, subject, msg, to_addrs)
 
 
